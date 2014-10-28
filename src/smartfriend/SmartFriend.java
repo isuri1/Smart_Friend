@@ -19,6 +19,7 @@ public class SmartFriend {
         // TODO code application logic here
         //Nilaksha
         //Isuri
+        //Keshani buddy
     }
     
 }
