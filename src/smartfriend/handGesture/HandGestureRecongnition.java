@@ -28,6 +28,7 @@ public class HandGestureRecongnition {
     private JFrame auxiluryDisplayPanel;
     private Camera camera;
     private DisplayEngine displayEngine;
+    private HandDetector handDetector;
 
     public HandGestureRecongnition() {
 
@@ -45,7 +46,7 @@ public class HandGestureRecongnition {
         gUIForm.setVisible(true);
         JFrame infoPanel = setUpInfoPanel();
         displayEngine = new DisplayEngine(camera, gUIForm.getDisplyDimentions(), (Graphics2D) infoPanel.getContentPane().getComponent(0).getGraphics());
-
+        handDetector = new HandDetector();
 
     }
 

@@ -32,10 +32,9 @@ public class DisplayEngine {
     private ArrayList<Point> boundryPoints;
     private Dimension displaySize;
     private PerspectiveTransform perspectiveTransform;
-
+    
     public DisplayEngine(Camera camera, Dimension displaySize, Graphics2D gui) {
         this.displaySize = displaySize;
-        System.out.println("##################");
         while (true) {
             boundryPoints = findBoundaries(camera.capturePhoto());
             if (boundryPoints.size() > 0) {
@@ -64,7 +63,9 @@ public class DisplayEngine {
             if (rec.area() > 100000) {
                 MatOfPoint2f matOfPoint2f = new MatOfPoint2f(contour.toArray());
                 Imgproc.approxPolyDP(matOfPoint2f, matOfPoint2f, 10, true);
-
+                System.out.println(matOfPoint2f.size());
+                ArrayList<Point> points  = new ArrayList<>();
+                 //drawBoundyPoints(image, points, gui);
                 if ((int) matOfPoint2f.size().height == 4) {
                     System.out.println("Ditected corner points");
                     boundryPoints.addAll(matOfPoint2f.toList());

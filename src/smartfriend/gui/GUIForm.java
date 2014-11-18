@@ -56,7 +56,7 @@ public class GUIForm extends javax.swing.JFrame {
         c.add(guiPanel, BorderLayout.CENTER);
 
 //        infoPanel = new JFrame("Info Panel");
-//        infoPanel.getContentPane().setLayout(new BorderLayout());
+//        infoPnel.getContentPane().setLayout(new BorderLayout());
 ////        jPanel = new JPanel() {
 ////            @Override
 ////            protected void paintComponent(Graphics g) {
