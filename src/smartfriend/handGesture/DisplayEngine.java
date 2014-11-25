@@ -6,21 +6,17 @@ package smartfriend.handGesture;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import javax.media.jai.PerspectiveTransform;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
+import smartfriend.gui.HandGestureGraphicRenderer;
+import smartfriend.util.general.PointTransform;
 
 /**
  *
@@ -31,23 +27,27 @@ public class DisplayEngine {
     private static final int IMG_THRESHOLD_VAL = 145;
     private ArrayList<Point> boundryPoints;
     private Dimension displaySize;
-    private PerspectiveTransform perspectiveTransform;
-    
-    public DisplayEngine(Camera camera, Dimension displaySize, Graphics2D gui) {
+    private Mat initialImage;
+
+    public DisplayEngine(Camera camera, Dimension displaySize, HandGestureGraphicRenderer graphicRenderer) {
         this.displaySize = displaySize;
         while (true) {
-            boundryPoints = findBoundaries(camera.capturePhoto());
+            initialImage = camera.capturePhoto();
+            boundryPoints = findBoundaries(initialImage.clone());
             if (boundryPoints.size() > 0) {
                 boundryPoints = sortPoints(boundryPoints);
-                for (Point pt : findBoundaries(camera.capturePhoto())) {
+                for (Point pt : boundryPoints) {
                     System.out.println(" x : " + pt.x + "   " + pt.y);
                 }
-                drawBoundyPoints(camera.capturePhoto(), boundryPoints, gui);
-                setBoarderPoints(boundryPoints, displaySize);
+                graphicRenderer.drawPoints(camera.capturePhoto(), boundryPoints, Color.GREEN);
+                PointTransform.initialize(boundryPoints, displaySize);
                 break;
             }
         }
+    }
 
+    public Mat getInitialImage() {
+        return initialImage;
     }
 
     private ArrayList<Point> findBoundaries(Mat image) {
@@ -63,9 +63,6 @@ public class DisplayEngine {
             if (rec.area() > 100000) {
                 MatOfPoint2f matOfPoint2f = new MatOfPoint2f(contour.toArray());
                 Imgproc.approxPolyDP(matOfPoint2f, matOfPoint2f, 10, true);
-                System.out.println(matOfPoint2f.size());
-                ArrayList<Point> points  = new ArrayList<>();
-                 //drawBoundyPoints(image, points, gui);
                 if ((int) matOfPoint2f.size().height == 4) {
                     System.out.println("Ditected corner points");
                     boundryPoints.addAll(matOfPoint2f.toList());
@@ -74,33 +71,6 @@ public class DisplayEngine {
             }
         }
         return boundryPoints;
-    }
-
-    private void drawBoundyPoints(Mat image, ArrayList<Point> points, Graphics2D gui) {
-        gui.drawImage(getImage(image), 0, 0, 640, 480, null);
-        for (Point pt : points) {
-            gui.setColor(Color.GREEN);
-            gui.fillOval((int) pt.x - 5, (int) pt.y - 5, 10, 10);
-        }
-    }
-
-    private BufferedImage getImage(Mat matImage) {
-
-        MatOfByte matOfByte = new MatOfByte();
-
-        Highgui.imencode(".jpg", matImage, matOfByte);
-
-        byte[] byteArray = matOfByte.toArray();
-        BufferedImage bufImage = null;
-
-        try {
-
-            InputStream in = new ByteArrayInputStream(byteArray);
-            bufImage = ImageIO.read(in);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return bufImage;
     }
 
     private ArrayList<Point> sortPoints(ArrayList<Point> points) {
@@ -136,23 +106,26 @@ public class DisplayEngine {
         return sortedPointsArrayList;
     }
 
-    private void setBoarderPoints(ArrayList<Point> sortedBoarderPoints, Dimension displayDimension) {
-        perspectiveTransform = PerspectiveTransform.getQuadToQuad(sortedBoarderPoints.get(0).x, sortedBoarderPoints.get(0).y, sortedBoarderPoints.get(1).x, sortedBoarderPoints.get(1).y,
-                sortedBoarderPoints.get(2).x, sortedBoarderPoints.get(2).y, sortedBoarderPoints.get(3).x, sortedBoarderPoints.get(3).y,
-                0, displayDimension.height, displayDimension.width, displayDimension.height, displayDimension.width, 0, 0, 0);
-    }
-
-    public Point transfromPoint(Point point) {
-        float[] src = {(float) point.x, (float) point.y};
-        float[] dst = {0, 0};
-        perspectiveTransform.transform(src, 0, dst, 0, 1);
-        return new Point((int) dst[0], (int) dst[1]); //screen is rotated
-    }
-
-    public ArrayList<Point> transfromPoints(ArrayList<Point> points) {
-        for (int i = 0; i < points.size(); i++) {
-            points.add(i, transfromPoint(points.remove(i)));
+    
+    
+    public ArrayList<Point> removeBoarderPooints(ArrayList<Point> pointsList) {
+        ArrayList<Point> points = null;
+        try {
+            points = PointTransform.getInstance().transfromPoints(pointsList);
+        } catch (Exception ex) {
+            Logger.getLogger(DisplayEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return points;
+        int boaderSize = 10;
+        ArrayList<Point> modifiedPoints = new ArrayList<>();
+        for (Point pt : points) {
+            if (pt.x < boaderSize | pt.x > (displaySize.width - boaderSize)) {
+                continue;
+            } else if (pt.y < boaderSize | pt.y > displaySize.height - boaderSize) {
+                continue;
+            } else {
+                modifiedPoints.add(pt);
+            }
+        }
+        return modifiedPoints;
     }
 }

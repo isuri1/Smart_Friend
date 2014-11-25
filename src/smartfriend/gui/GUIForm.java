@@ -7,33 +7,28 @@ package smartfriend.gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Point;
 import java.awt.Toolkit;
-import java.util.ArrayList;
 
 /**
  *
  * @author Meuru
- * 
+ *
  * This class is the basic GUI Form which will be displayed in the display panel
  */
 public class GUIForm extends javax.swing.JFrame {
 
     private static final int GRAPHIC_DIVICE_NO = 1;
     private Dimension screenSize;
-    
     /**
      * Creates new form GUIForm
      */
-    private GUIPanel guiPanel;
-    
+    //private GUIPanel guiPanel;
+
 //    private JFrame infoPanel;
 //    private JPanel jPanel;
 //    private Image image;
-
     public GUIForm() {
         initComponents();
 
@@ -47,13 +42,15 @@ public class GUIForm extends javax.swing.JFrame {
         }
         setSize(screenSize);
         setLocation((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 0);
+        
+         Container c = getContentPane();
+        c.setLayout(new BorderLayout());
+        //guiJPanel = new GUIJPanel(); // the webcam pictures and drums appear here
+        //c.add(new NewJPanel(), BorderLayout.CENTER);
 
         //mouse = new Mouse(devices[GRAPHIC_DIVICE_NO]);
 
-        Container c = getContentPane();
-        c.setLayout(new BorderLayout());
-        guiPanel = new GUIPanel(); // the webcam pictures and drums appear here
-        c.add(guiPanel, BorderLayout.CENTER);
+        
 
 //        infoPanel = new JFrame("Info Panel");
 //        infoPnel.getContentPane().setLayout(new BorderLayout());
@@ -69,34 +66,14 @@ public class GUIForm extends javax.swing.JFrame {
 //        infoPanel.setLayout(new BorderLayout());
     }
 
-    public Graphics2D getGraphic() {
-        return (Graphics2D) guiPanel.getGraphics();
-    }
+//    public Graphics2D getGraphic() {
+//        return (Graphics2D) guiPanel.getGraphics();
+//    }
 
-    public void wipeScreen() {
-        guiPanel.setVisible(false);
-    }
+    
 
-    public void resetScreen() {
-        guiPanel.setVisible(true);
-    }
+    
 
-    public void drawPointer(Point point) {
-        guiPanel.drawPointer(point);
-        //mouse.moveMousePointer((point));
-        //System.out.println("Drawing points at x :" + point.x + "  y: " + point.y);
-        //infoPanel.add(new JLabel(new ImageIcon("C:\\Users\\Meuru\\Desktop\\Untitled-1.png")));
-        //image = transformPicture(mouse.getScreenShot());
-        //jPanel.repaint();
-    }
-
-    public void drawPoints(ArrayList<Point> points) {
-        if (points != null) {
-            guiPanel.setHandPoints(points);
-        }
-    }
-
-        
 //    private Image transformPicture(BufferedImage img) {
 //        javaxt.io.Image imageddImage = new javaxt.io.Image(img);
 //        imageddImage.setCorners(sortedBoarderPoints[0].x, sortedBoarderPoints[0].y, //UL
@@ -105,7 +82,6 @@ public class GUIForm extends javax.swing.JFrame {
 //                sortedBoarderPoints[1].x, sortedBoarderPoints[1].y);         //LL
 //        return imageddImage.getBufferedImage();
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -168,35 +144,6 @@ public class GUIForm extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
-    private Point[] sortPoints(ArrayList<Point> points) {
-        Point[] sortedPoints = new Point[4];
-        sortedPoints[0] = points.get(0);
-        for (Point pt : points) {
-            if (Math.pow(sortedPoints[0].x, 2) + Math.pow(sortedPoints[0].x, 2)
-                    > Math.pow(pt.x, 2) + Math.pow(pt.y, 2)) {
-                sortedPoints[0] = pt;
-
-            }
-        }
-        points.remove(sortedPoints[0]);
-        sortedPoints[GRAPHIC_DIVICE_NO] = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        for (Point pt : points) {
-            if (sortedPoints[GRAPHIC_DIVICE_NO].x > pt.x) {
-                sortedPoints[GRAPHIC_DIVICE_NO] = pt;
-            }
-        }
-        points.remove(sortedPoints[GRAPHIC_DIVICE_NO]);
-        sortedPoints[3] = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        for (Point pt : points) {
-            if (sortedPoints[3].y > pt.y) {
-                sortedPoints[3] = pt;
-            }
-        }
-        points.remove(sortedPoints[3]);
-        sortedPoints[2] = points.get(0);
-        return sortedPoints;
-    }
 
     public Dimension getDisplyDimentions() {
         return screenSize;

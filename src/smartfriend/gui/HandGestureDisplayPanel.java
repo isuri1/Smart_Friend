@@ -4,34 +4,38 @@
  */
 package smartfriend.gui;
 
+import com.sun.xml.internal.ws.api.pipe.Tube;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
+import org.opencv.core.Point;
 
 /**
  *
  * @author Meuru
  */
-public class GUIPanel extends JPanel{
-    
+public class HandGestureDisplayPanel extends JPanel implements Runnable {
+
     private Point CureserPoint;
     private Random random;
     private ArrayList<Point> handPoints;
     int x = 700, y = 500;
 
-    public GUIPanel() {
+    public HandGestureDisplayPanel() {
         random = new Random();
+        repaint();
+        new Thread(this).start();
     }
 
     public void drawPointer(Point point) {
         this.CureserPoint = point;
-        this.setBackground(Color.WHITE);
-        repaint();
+        //repaint();
     }
 
     public void setHandPoints(ArrayList<Point> points) {
@@ -50,11 +54,11 @@ public class GUIPanel extends JPanel{
         g2d.setColor(Color.WHITE);
         g2d.fillRect(6, 6, this.getWidth() - 12, this.getHeight() - 12);
 
-
+        System.out.println("@@@@");
         if (CureserPoint != null) {
-            drawRandomRectangle(g2d);
+            //drawRandomRectangle(g2d);
             g2d.setPaint(Color.RED);
-            g2d.fillOval(CureserPoint.x - 10, CureserPoint.y - 10, 20, 20);
+            g2d.fillOval((int) CureserPoint.x - 10, (int) CureserPoint.y - 10, 20, 20);
         }
         g2d.setColor(Color.LIGHT_GRAY);
         if (handPoints != null && handPoints.size() > 0) {
@@ -63,8 +67,8 @@ public class GUIPanel extends JPanel{
             for (int i = 0; i < handPoints.size(); i++) {
                 //g2d.fillOval(pt.x - 10, pt.y - 10, 20, 20);
                 Point pt = handPoints.get(i);
-                x1Points[i] = pt.x;
-                y1Points[i] = pt.y;
+                x1Points[i] = (int) pt.x;
+                y1Points[i] = (int) pt.y;
             }
 
             GeneralPath polygon =
@@ -89,5 +93,18 @@ public class GUIPanel extends JPanel{
         g.fillRect(x, y, 100, 100);
     }
 
-    
+    @Override
+    public void run() {
+        while (true) {
+            drawPointer(new Point(100, 100));
+            try {
+                repaint();
+                Thread.sleep(20);
+                
+            } catch (InterruptedException ex) {
+                Logger.getLogger(HandGestureDisplayPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
 }
