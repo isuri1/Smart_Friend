@@ -106,16 +106,16 @@ public class DisplayEngine {
         return sortedPointsArrayList;
     }
 
-    
-    
-    public ArrayList<Point> removeBoarderPooints(ArrayList<Point> pointsList) {
+    public ArrayList<Point> removeOutsidePoints(ArrayList<Point> pointsList) {
+
         ArrayList<Point> points = null;
         try {
             points = PointTransform.getInstance().transfromPoints(pointsList);
         } catch (Exception ex) {
             Logger.getLogger(DisplayEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int boaderSize = 10;
+
+        int boaderSize = 0;
         ArrayList<Point> modifiedPoints = new ArrayList<>();
         for (Point pt : points) {
             if (pt.x < boaderSize | pt.x > (displaySize.width - boaderSize)) {
@@ -127,5 +127,28 @@ public class DisplayEngine {
             }
         }
         return modifiedPoints;
+
+
+    }
+
+    public ArrayList<Point> removeBoarderPooints(ArrayList<Point> pointsList) {
+
+        if (pointsList.size() > 4) {
+            int boaderSize = 10;
+            ArrayList<Point> modifiedPoints = new ArrayList<>();
+            for (Point pt : pointsList) {
+                if (pt.x < boaderSize | pt.x > (displaySize.width - boaderSize)) {
+                    continue;
+                } else if (pt.y < boaderSize | pt.y > displaySize.height - boaderSize) {
+                    continue;
+                } else {
+                    modifiedPoints.add(pt);
+                }
+            }
+            return modifiedPoints;
+        } else {
+            return pointsList;
+        }
+
     }
 }
