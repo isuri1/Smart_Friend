@@ -54,12 +54,7 @@ public class HandGestureDisplayPanel extends JPanel implements Runnable {
         g2d.setColor(Color.WHITE);
         g2d.fillRect(6, 6, this.getWidth() - 12, this.getHeight() - 12);
 
-        System.out.println("@@@@");
-        if (CureserPoint != null) {
-            //drawRandomRectangle(g2d);
-            g2d.setPaint(Color.RED);
-            g2d.fillOval((int) CureserPoint.x - 10, (int) CureserPoint.y - 10, 20, 20);
-        }
+        
         g2d.setColor(Color.LIGHT_GRAY);
         if (handPoints != null && handPoints.size() > 0) {
             int x1Points[] = new int[handPoints.size()];
@@ -81,6 +76,11 @@ public class HandGestureDisplayPanel extends JPanel implements Runnable {
             }
             polygon.closePath();
             g2d.fill(polygon);
+        }
+        if (CureserPoint != null) {
+            //drawRandomRectangle(g2d);
+            g2d.setPaint(Color.RED);
+            g2d.fillOval((int) CureserPoint.x - 10, (int) CureserPoint.y - 10, 20, 20);
         }
     }
 
