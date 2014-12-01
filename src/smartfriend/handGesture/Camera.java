@@ -5,7 +5,9 @@
 package smartfriend.handGesture;
 
 import com.sun.corba.se.impl.interceptors.PICurrent;
+import java.awt.Dimension;
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 
@@ -29,6 +31,11 @@ public class Camera {
         webcam.open(cameraID);
         runCamera();        // allow camera to adjust itself
         System.out.println("Camera " + cameraID + " is ready");
+    }
+
+    public Dimension getCameraDimension() {
+        Size photoSize = capturePhoto().size();
+        return new Dimension((int) photoSize.width, (int) photoSize.height);
     }
 
     /**

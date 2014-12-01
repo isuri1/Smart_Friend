@@ -39,11 +39,19 @@ public class DisplayEngine {
                 for (Point pt : boundryPoints) {
                     System.out.println(" x : " + pt.x + "   " + pt.y);
                 }
-                graphicRenderer.drawPoints(camera.capturePhoto(), boundryPoints, Color.GREEN);
+                graphicRenderer.drawPointsOnInfoPanel(camera.capturePhoto(), boundryPoints, Color.GREEN,1);
                 PointTransform.initialize(boundryPoints, displaySize);
                 break;
             }
         }
+    }
+    
+    public Dimension getDisplayDimension(){
+        return displaySize;
+    }
+    
+    public ArrayList<Point> getBoundryPointsI(){
+        return boundryPoints;
     }
 
     public Mat getInitialImage() {
@@ -131,7 +139,7 @@ public class DisplayEngine {
 
     }
 
-    public ArrayList<Point> removeBoarderPooints(ArrayList<Point> pointsList) {
+    public ArrayList<Point> removeBoarderPoints(ArrayList<Point> pointsList) {
 
         if (pointsList.size() > 4) {
             int boaderSize = 10;

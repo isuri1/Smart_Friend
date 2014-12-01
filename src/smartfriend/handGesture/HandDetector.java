@@ -4,22 +4,22 @@
  */
 package smartfriend.handGesture;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import math.geom2d.Point2D;
 import math.geom2d.polygon.SimplePolygon2D;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.imgproc.Imgproc;
 import smartfriend.gui.HandGestureGraphicRenderer;
-import smartfriend.util.general.PointTransform;
 
 /**
  *
@@ -28,10 +28,12 @@ import smartfriend.util.general.PointTransform;
 public class HandDetector {
 
     private static final int IMG_THRESHOLD_VAL = 145;
+    private static final double POINTER_SMOOTH_RATIO = 0.5;
     private HandGestureGraphicRenderer graphicRenderer;
     private DisplayEngine displayEngine;
     private Mat initialImage;
     private SimplePolygon2D biggestContour;
+    private Point pointerHistoryPoint;
 
     HandDetector(DisplayEngine de, HandGestureGraphicRenderer gr, Mat initialImage) {
         displayEngine = de;
@@ -39,33 +41,37 @@ public class HandDetector {
         this.initialImage = initialImage;
     }
 
-    public Point getHandPoint(Mat image) {
-        Point handPoint = new Point();
+    public Point getHandPoint(Mat image, BufferedImage screenImage) {
+        Point pointer = new Point();
         Mat img = image.clone();
         //resize image to speedup
         Core.absdiff(image, initialImage, image);
+        screenImage = new BufferedImage(screenImage.getWidth(), screenImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+        byte[] pixels = ((DataBufferByte) screenImage.getRaster().getDataBuffer()).getData();
+        Mat mat = new Mat(screenImage.getHeight(), screenImage.getWidth(), CvType.CV_8UC3);
+        mat.put(0, 0, pixels);
+        Core.absdiff(image, mat, image);
+
         Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
         Imgproc.threshold(image, image, IMG_THRESHOLD_VAL, 255, Imgproc.THRESH_BINARY);
+        graphicRenderer.drawImageOnInfoPanel(image, 640, 0, 2);
         ArrayList<MatOfPoint> contours = new ArrayList<>();
 
         Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
         if (contours.size() > 0) {
-            List<Point> biggestContour = getBiggestContour(contours);
-            //graphicRenderer.drawShape(img, biggestContour, Color.PINK);
-            if (biggestContour != null) {
-                ArrayList<Point> transformedHandPoints = displayEngine.removeBoarderPooints(new ArrayList<>(biggestContour));
-
-                Point cog = computeHandInfo(transformedHandPoints);
-                graphicRenderer.drawPointsOnScreen(transformedHandPoints);
-                if (cog != null) {
-                    //graphicRenderer.drawPointerOnScreen(cog);
-                }
-                //graphicRenderer.drawPointer(computeHandInfo(transformedHandPoints));
-                /// remove the boarder points
+            List<Point> transformedBiggestContour = getBiggestContour(contours);
+            if (transformedBiggestContour != null) {
+                ArrayList<Point> transformedHandPoints = displayEngine.removeBoarderPoints(new ArrayList<>(transformedBiggestContour));
+                graphicRenderer.drawShape(transformedHandPoints, Color.PINK,640,240,4);
+                pointer = smoothenPoint(computeHandInfo(transformedHandPoints));
+//                graphicRenderer.drawPointsOnScreen(transformedHandPoints);
+//                if (pointer != null) {
+//                    graphicRenderer.drawPointerOnScreen(pointer);
+//                }
             }
         }
-        return handPoint;
+        return pointer;
     }
 
     private List<Point> getBiggestContour(ArrayList<MatOfPoint> contours) {
@@ -115,12 +121,28 @@ public class HandDetector {
                     distantPoint = pt;
                 }
             }
-            if (distantPoint != null) {
-                graphicRenderer.drawPointerOnScreen(new Point(distantPoint.x(), distantPoint.y()));
-            }
-            return new Point(centorid.x(), centorid.y());
+            return new Point(distantPoint.x(), distantPoint.y());
         } else {
-            return null;
+            return new Point(0, 0);
         }
+    }
+
+    private Point smoothenPoint(Point point) {
+
+        if (pointerHistoryPoint != null) {
+//            double distance = math.geom2d.Point2D.distance(pointerHistoryPoint.x, pointerHistoryPoint.y, point.x, point.y);
+//            if (distance < 300) {
+//                pointerHistoryPoint = point;
+//                return point;
+//            } else {
+//                return pointerHistoryPoint;
+//            }
+            pointerHistoryPoint = new Point((POINTER_SMOOTH_RATIO * pointerHistoryPoint.x + (1 - POINTER_SMOOTH_RATIO) * point.x),
+                    (POINTER_SMOOTH_RATIO * pointerHistoryPoint.y + (1 - POINTER_SMOOTH_RATIO) * point.y));
+        } else {
+            pointerHistoryPoint = point;
+        }
+        return pointerHistoryPoint;
+
     }
 }

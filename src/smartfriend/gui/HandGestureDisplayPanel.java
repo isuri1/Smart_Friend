@@ -20,7 +20,7 @@ import org.opencv.core.Point;
  *
  * @author Meuru
  */
-public class HandGestureDisplayPanel extends JPanel implements Runnable {
+public class HandGestureDisplayPanel extends JPanel {
 
     private Point CureserPoint;
     private Random random;
@@ -28,9 +28,9 @@ public class HandGestureDisplayPanel extends JPanel implements Runnable {
     int x = 700, y = 500;
 
     public HandGestureDisplayPanel() {
-        random = new Random();
+        //random = new Random();
         repaint();
-        new Thread(this).start();
+        setOpaque(false);
     }
 
     public void drawPointer(Point point) {
@@ -47,12 +47,12 @@ public class HandGestureDisplayPanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setColor(Color.BLUE);
-        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
-        g2d.setColor(Color.RED);
-        g2d.fillRect(3, 3, this.getWidth() - 6, this.getHeight() - 6);
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(6, 6, this.getWidth() - 12, this.getHeight() - 12);
+//        g2d.setColor(Color.BLUE);
+//        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+//        g2d.setColor(Color.RED);
+//        g2d.fillRect(3, 3, this.getWidth() - 6, this.getHeight() - 6);
+//        g2d.setColor(Color.WHITE);
+//        g2d.fillRect(6, 6, this.getWidth() - 12, this.getHeight() - 12);
 
 
         g2d.setColor(Color.LIGHT_GRAY);
@@ -81,6 +81,8 @@ public class HandGestureDisplayPanel extends JPanel implements Runnable {
             //drawRandomRectangle(g2d);
             g2d.setPaint(Color.RED);
             g2d.fillOval((int) CureserPoint.x - 10, (int) CureserPoint.y - 10, 20, 20);
+            g2d.setPaint(Color.BLACK);
+            g2d.drawOval((int) CureserPoint.x - 150, (int) CureserPoint.y - 150, 300, 300);
         }
     }
 
@@ -91,19 +93,5 @@ public class HandGestureDisplayPanel extends JPanel implements Runnable {
         }
         g.setColor(Color.yellow);
         g.fillRect(x, y, 100, 100);
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                repaint();
-                Thread.sleep(20);
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(HandGestureDisplayPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
     }
 }

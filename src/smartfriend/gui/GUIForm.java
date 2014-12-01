@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import smartfriend.util.general.Consts;
 
 /**
  *
@@ -19,69 +20,45 @@ import java.awt.Toolkit;
  */
 public class GUIForm extends javax.swing.JFrame {
 
-    private static final int GRAPHIC_DIVICE_NO = 1;
     private Dimension screenSize;
+    private GraphicsDevice[] devices;
+
     /**
      * Creates new form GUIForm
      */
     //private GUIPanel guiPanel;
-
 //    private JFrame infoPanel;
 //    private JPanel jPanel;
 //    private Image image;
     public GUIForm() {
         initComponents();
-
-        GraphicsDevice[] devices;
-
         devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
         if (devices.length > 1) {
-            screenSize = devices[GRAPHIC_DIVICE_NO].getDefaultConfiguration().getBounds().getSize();
+            screenSize = devices[Consts.GRAPHIC_DIVICE_NO].getDefaultConfiguration().getBounds().getSize();
         } else {
             screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         }
+        if (!((Integer.compare(screenSize.width, Consts.SCREEN_WIDHT) == 0) & (Integer.compare(screenSize.height, Consts.SCREEN_HEIGHT) == 0))) {
+            throw new RuntimeException("The defined screen size and the available screen size does not match please change the defined screen size to " + screenSize );
+        }
         setSize(screenSize);
         setLocation((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 0);
-        
-         Container c = getContentPane();
+
+        Container c = getContentPane();
         c.setLayout(new BorderLayout());
+
+
         //guiJPanel = new GUIJPanel(); // the webcam pictures and drums appear here
         //c.add(new NewJPanel(), BorderLayout.CENTER);
 
         //mouse = new Mouse(devices[GRAPHIC_DIVICE_NO]);
 
-        
-
-//        infoPanel = new JFrame("Info Panel");
-//        infoPnel.getContentPane().setLayout(new BorderLayout());
-////        jPanel = new JPanel() {
-////            @Override
-////            protected void paintComponent(Graphics g) {
-////                g.drawImage(image, 0, 0, null);
-////            }
-////        };
-//        infoPanel.getContentPane().add(jPanel, BorderLayout.CENTER);
-//        infoPanel.setSize(640, 480);
-//        infoPanel.setVisible(true);
-//        infoPanel.setLayout(new BorderLayout());
     }
 
-//    public Graphics2D getGraphic() {
-//        return (Graphics2D) guiPanel.getGraphics();
-//    }
+    public GraphicsDevice getGraphicsDevice() {
+        return devices[Consts.GRAPHIC_DIVICE_NO];
+    }
 
-    
-
-    
-
-//    private Image transformPicture(BufferedImage img) {
-//        javaxt.io.Image imageddImage = new javaxt.io.Image(img);
-//        imageddImage.setCorners(sortedBoarderPoints[0].x, sortedBoarderPoints[0].y, //UL
-//                sortedBoarderPoints[3].x, sortedBoarderPoints[3].y, //UR
-//                sortedBoarderPoints[2].x, sortedBoarderPoints[2].y, //LR
-//                sortedBoarderPoints[1].x, sortedBoarderPoints[1].y);         //LL
-//        return imageddImage.getBufferedImage();
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
