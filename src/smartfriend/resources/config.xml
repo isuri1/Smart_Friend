@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Configuration File</comment>
+
+<entry key="images">/src/smartfriend/resources/image_details.xml</entry>
+<entry key="acousticModelPath">/src/smartfriend/resources/speech/models/en-usadapt-number</entry>
+<entry key="dictionaryPath">/src/smartfriend/resources/speech/models/en-usadapt-number/dic/cmudict.0.6d</entry>
+<entry key="languageModelPath">/src/smartfriend/resources/speech/models/en-usadapt-number/language/7257.lm</entry>
+</properties>
