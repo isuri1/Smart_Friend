@@ -12,8 +12,8 @@ public final class Consts {
     
     //Disply Constants
     public static final int GRAPHIC_DIVICE_NO = 1;
-    public static final int SCREEN_WIDHT = 1280;
-    public static final int SCREEN_HEIGHT = 1024;
+    public static final int SCREEN_WIDHT = 1366;
+    public static final int SCREEN_HEIGHT = 768;
     
     //Hand Gesture Recognition Constants
     public static final int CAMERA_ID = 1;

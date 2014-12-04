@@ -5,7 +5,6 @@
 package smartfriend.gui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics2D;
@@ -19,13 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
 import org.opencv.highgui.Highgui;
-import smartfriend.handGesture.HandGestureRecongnition;
 import smartfriend.util.general.Consts;
 
 /**
@@ -47,11 +44,13 @@ public class HandGestureGraphicRenderer implements Runnable {
         Container c = base.getContentPane();
 
         JPanel testPanel = new TestPanel();
-        screenPanel = new HandGestureDisplayPanel(); 
+        screenPanel = new HandGestureDisplayPanel();
         base.setGlassPane(screenPanel);
         base.getGlassPane().setVisible(true);
-        c.add(testPanel, -1);
-
+        c.add(testPanel, -1);        
+    }
+    
+    public void startGraphicRendererThread(){
         new Thread(this).start();
     }
 
@@ -67,21 +66,12 @@ public class HandGestureGraphicRenderer implements Runnable {
     }
 
     public void wipeScreen() {
-        screenPanel.setVisible(false);
-    }
-
-    public void resetScreen() {
-        screenPanel.setVisible(true);
+        screenPanel.getGraphics().setColor(Color.BLACK);
+        screenPanel.getGraphics().fillRect(0, 0, Consts.SCREEN_WIDHT, Consts.SCREEN_HEIGHT);
     }
 
     public void drawPointerOnScreen(Point point) {
         screenPanel.drawPointer(point);
-//        drawCircleOnScreen(point);
-        //mouse.moveMousePointer((point));
-        //System.out.println("Drawing points at x :" + point.x + "  y: " + point.y);
-        //infoPanel.add(new JLabel(new ImageIcon("C:\\Users\\Meuru\\Desktop\\Untitled-1.png")));
-        //image = transformPicture(mouse.getScreenShot());
-        //jPanel.repaint();
     }
 
     public void drawPointsOnScreen(ArrayList<Point> points) {
@@ -90,13 +80,12 @@ public class HandGestureGraphicRenderer implements Runnable {
         }
     }
 
-    public void drawCircleOnScreen(Point point) {
-        if (point != null) {
-            screenPanel.getGraphics().setColor(Color.RED);
-            screenPanel.getGraphics().drawOval((int) point.x - 150, (int) point.y - 150, 300, 300);
-        }
-    }
-
+//    public void drawCircleOnScreen(Point point) {
+//        if (point != null) {
+//            screenPanel.getGraphics().setColor(Color.RED);
+//            screenPanel.getGraphics().drawOval((int) point.x - 150, (int) point.y - 150, 300, 300);
+//        }
+//    }
     public void drawPointsOnInfoPanel(Mat image, List<Point> points, Color color, int downScale) {
         infoPanelGraphics2D.drawImage(getImage(image), 0, 0, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
         for (Point pt : points) {
@@ -113,6 +102,10 @@ public class HandGestureGraphicRenderer implements Runnable {
         infoPanelGraphics2D.drawImage(getImage(image), x, y, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
     }
 
+    public void drawImageOnInfoPanel(BufferedImage image, int x, int y, int downScale) {
+        infoPanelGraphics2D.drawImage(image, x, y, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
+    }
+
     public void drawImageOnInfoPanel(BufferedImage image, int downScale) {
         infoPanelGraphics2D.drawImage(image, 0, 0, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
     }
@@ -124,7 +117,7 @@ public class HandGestureGraphicRenderer implements Runnable {
 
     public void drawShape(List<Point> points, Color color, int x, int y, int downScale) {
         infoPanelGraphics2D.setColor(Color.YELLOW);
-        infoPanelGraphics2D.fillRect(x, y, screenPanel.getSize().width/downScale, screenPanel.getSize().height/downScale);
+        infoPanelGraphics2D.fillRect(x, y, screenPanel.getSize().width / downScale, screenPanel.getSize().height / downScale);
         infoPanelGraphics2D.setColor(color);
         if (points.size() > 0) {
             int x1Points[] = new int[points.size()];

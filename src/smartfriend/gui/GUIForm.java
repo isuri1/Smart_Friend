@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import smartfriend.util.general.Consts;
 
 /**
@@ -26,10 +28,6 @@ public class GUIForm extends javax.swing.JFrame {
     /**
      * Creates new form GUIForm
      */
-    //private GUIPanel guiPanel;
-//    private JFrame infoPanel;
-//    private JPanel jPanel;
-//    private Image image;
     public GUIForm() {
         initComponents();
         devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
@@ -39,20 +37,15 @@ public class GUIForm extends javax.swing.JFrame {
             screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         }
         if (!((Integer.compare(screenSize.width, Consts.SCREEN_WIDHT) == 0) & (Integer.compare(screenSize.height, Consts.SCREEN_HEIGHT) == 0))) {
-            throw new RuntimeException("The defined screen size and the available screen size does not match please change the defined screen size to " + screenSize );
+            throw new RuntimeException("The defined screen size and the available screen size does not match please change the defined screen size to " + screenSize);
         }
         setSize(screenSize);
         setLocation((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 0);
 
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
-
-
-        //guiJPanel = new GUIJPanel(); // the webcam pictures and drums appear here
-        //c.add(new NewJPanel(), BorderLayout.CENTER);
-
-        //mouse = new Mouse(devices[GRAPHIC_DIVICE_NO]);
-
+        
+        
     }
 
     public GraphicsDevice getGraphicsDevice() {

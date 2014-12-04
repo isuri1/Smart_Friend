@@ -5,6 +5,8 @@
 package smartfriend.handGesture;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +27,6 @@ import smartfriend.util.general.Consts;
 public class HandGestureRecongnition implements Runnable {
 
     private GUIForm gUIForm;
-    private JFrame infoPanel;
     private Camera camera;
     private DisplayEngine displayEngine;
     private HandDetector handDetector;
@@ -43,15 +44,28 @@ public class HandGestureRecongnition implements Runnable {
         gUIForm = new GUIForm();
         camera = new Camera(Consts.CAMERA_ID);
 
-        infoPanel = setUpInfoPanel();
         graphicRenderer = new HandGestureGraphicRenderer(gUIForm);
         gUIForm.setVisible(true);
         displayEngine = new DisplayEngine(camera, gUIForm.getDisplyDimentions(), graphicRenderer);
 
-        handDetector = new HandDetector(displayEngine, graphicRenderer, displayEngine.getInitialImage());
+        handDetector = new HandDetector(displayEngine, graphicRenderer, camera);
         systemController = new SystemController(gUIForm.getGraphicsDevice(), displayEngine.getBoundryPointsI());
 
+        gUIForm.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if ((keyCode == KeyEvent.VK_NUMPAD5) || (keyCode == KeyEvent.VK_ENTER)
+                        || (keyCode == KeyEvent.VK_SPACE)) // take a snap when press NUMPAD-5, enter, or space is pressed
+                {
+                    System.out.println("DDDDDD");
+                    System.exit(0);
+                }
+            }
+        });
         new Thread(this).start();
+
+
     }
 
     public static void main(String[] args) {
@@ -80,11 +94,12 @@ public class HandGestureRecongnition implements Runnable {
         while (true) {
             //gUIForm.setOpacity(0.5f);
             screenImage = systemController.getSkewedScreenShot();
-            graphicRenderer.drawImageOnInfoPanel(screenImage, 1);
-            handpointer = handDetector.getHandPoint(camera.capturePhoto().clone(), screenImage);
+           
+            //graphicRenderer.drawImageOnInfoPanel(screenImage, 1);
+            handpointer = handDetector.getHandPoint(camera.capturePhoto(), screenImage);
             graphicRenderer.drawPointerOnScreen(handpointer);
             systemController.moveMousePointer(handpointer);
-            infoPanel.repaint();
+           
         }
     }
 }

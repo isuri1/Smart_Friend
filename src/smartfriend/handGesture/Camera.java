@@ -48,7 +48,7 @@ public class Camera {
         if (webcam.isOpened()) {
             webcam.read(frame);
         }
-        return frame;
+        return frame.clone();
     }
 
     private void runCamera() {
@@ -57,7 +57,7 @@ public class Camera {
         }
     }
 
-    private void saveImage(Mat image) {
+    public void saveImage(Mat image) {
         Highgui.imwrite("D:/camera.jpg", image);
     }
 }

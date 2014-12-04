@@ -10,6 +10,8 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import math.geom2d.Point2D;
 import math.geom2d.polygon.SimplePolygon2D;
 import org.opencv.core.Core;
@@ -18,6 +20,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import smartfriend.gui.HandGestureGraphicRenderer;
 
@@ -35,22 +38,51 @@ public class HandDetector {
     private SimplePolygon2D biggestContour;
     private Point pointerHistoryPoint;
 
-    HandDetector(DisplayEngine de, HandGestureGraphicRenderer gr, Mat initialImage) {
+    HandDetector(DisplayEngine de, HandGestureGraphicRenderer gr, Camera camera) {
         displayEngine = de;
         graphicRenderer = gr;
-        this.initialImage = initialImage;
+        graphicRenderer.wipeScreen();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(HandDetector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Taking the black pic");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(HandDetector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("@@@@@Taking the black pic");
+        initialImage = new Mat(camera.capturePhoto().clone(), new Rect(0, 0, 640, 480));
+        System.out.println(initialImage);
+        //camera.saveImage(initialImage);
+        graphicRenderer.drawImageOnInfoPanel(initialImage, 960, 0, 2);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(HandDetector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        graphicRenderer.startGraphicRendererThread();
     }
 
     public Point getHandPoint(Mat image, BufferedImage screenImage) {
+//        graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 0, 2);
+        
         Point pointer = new Point();
         Mat img = image.clone();
         //resize image to speedup
         Core.absdiff(image, initialImage, image);
-        screenImage = new BufferedImage(screenImage.getWidth(), screenImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-        byte[] pixels = ((DataBufferByte) screenImage.getRaster().getDataBuffer()).getData();
+        BufferedImage convertedImg = new BufferedImage(screenImage.getWidth(), screenImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+        convertedImg.getGraphics().drawImage(screenImage, 0, 0, null);
+        graphicRenderer.drawImageOnInfoPanel(convertedImg, 960, 240, 2);
+        byte[] pixels = ((DataBufferByte) convertedImg.getRaster().getDataBuffer()).getData();
         Mat mat = new Mat(screenImage.getHeight(), screenImage.getWidth(), CvType.CV_8UC3);
         mat.put(0, 0, pixels);
-        Core.absdiff(image, mat, image);
+        //graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 0, 2);
+
+       // Core.absdiff(image, mat, image);
+        graphicRenderer.drawImageOnInfoPanel(image, 960, 480, 2);
 
         Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
         Imgproc.threshold(image, image, IMG_THRESHOLD_VAL, 255, Imgproc.THRESH_BINARY);
@@ -63,7 +95,7 @@ public class HandDetector {
             List<Point> transformedBiggestContour = getBiggestContour(contours);
             if (transformedBiggestContour != null) {
                 ArrayList<Point> transformedHandPoints = displayEngine.removeBoarderPoints(new ArrayList<>(transformedBiggestContour));
-                graphicRenderer.drawShape(transformedHandPoints, Color.PINK,640,240,4);
+                graphicRenderer.drawShape(transformedHandPoints, Color.PINK, 640, 240, 4);
                 pointer = smoothenPoint(computeHandInfo(transformedHandPoints));
 //                graphicRenderer.drawPointsOnScreen(transformedHandPoints);
 //                if (pointer != null) {
