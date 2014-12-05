@@ -248,10 +248,10 @@ public class NumberApp extends JFrame {
             if (i < 10) {
                 i++;
             }
-            cardsArray[i] = MainConfiguration.getCurrentDirectory()+"/src/smartfriend/resources/images/speech/n" + i + ".jpg";
+            cardsArray[i] = MainConfiguration.getCurrentDirectory() + "/src/smartfriend/resources/images/speech/n" + i + ".jpg";
             jLabel1.setIcon(new ImageIcon(ImageIO.read(new File(cardsArray[i]))));
-            jLabel2.setIcon(new ImageIcon(ImageIO.read(new File(MainConfiguration.getCurrentDirectory()+"/src/smartfriend/resources/images/speech/a" + i + ".png"))));
-            jLabel3.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(MainConfiguration.getCurrentDirectory()+"/src/smartfriend/resources/images/speech/animated" + i + ".gif")));
+            jLabel2.setIcon(new ImageIcon(ImageIO.read(new File(MainConfiguration.getCurrentDirectory() + "/src/smartfriend/resources/images/speech/a" + i + ".png"))));
+            jLabel3.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage(MainConfiguration.getCurrentDirectory() + "/src/smartfriend/resources/images/speech/animated" + i + ".gif")));
 
             for (int x = 1; x <= 10; x++) {
                 l[x].setBackground(Color.WHITE);

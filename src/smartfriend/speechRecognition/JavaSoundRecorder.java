@@ -2,6 +2,8 @@ package smartfriend.speechRecognition;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -9,6 +11,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import smartfriend.util.general.MainConfiguration;
 
 /**
  *
@@ -20,13 +23,22 @@ public class JavaSoundRecorder {
     static final long RECORD_TIME = 5000;
 
     // path of the wav file
-    File wavFile = new File("C:/Users/user/Documents/smart_audio/test2.wav");
+    File wavFile;
+
 
     // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 
     // the line from which audio data is captured
     TargetDataLine line;
+
+    public JavaSoundRecorder() {
+        try {
+            this.wavFile = new File(MainConfiguration.getCurrentDirectory() + "/src/smartfriend/resources/speech/audio/recording.wav");    
+        } catch (IOException ex) {
+            Logger.getLogger(JavaSoundRecorder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Defines an audio format

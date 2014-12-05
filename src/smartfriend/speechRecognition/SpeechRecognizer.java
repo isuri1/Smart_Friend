@@ -144,7 +144,7 @@ public class SpeechRecognizer {
             configuration.setLanguageModelPath("file:/" + MainConfiguration.getCurrentDirectory() + MainConfiguration.getInstance().getProperty("languageModelPath"));
             //Read from a recorded wave file 
             StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
-            recognizer.startRecognition(new FileInputStream("C:\\Users\\user\\Documents\\smart_audio\\test2.wav"));
+            recognizer.startRecognition(new FileInputStream(MainConfiguration.getCurrentDirectory() + "/src/smartfriend/resources/recording.wav"));
 
             SpeechResult result;
             System.out.println("start.....");
