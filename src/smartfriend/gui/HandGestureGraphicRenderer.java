@@ -49,7 +49,7 @@ public class HandGestureGraphicRenderer implements Runnable {
         screenPanel = new HandGestureDisplayPanel();
         base.setGlassPane(screenPanel);
         base.getGlassPane().setVisible(true);
-       // c.add(testPanel, -1);
+        // c.add(testPanel, -1);
     }
 
     public void startGraphicRendererThread() {
@@ -117,7 +117,7 @@ public class HandGestureGraphicRenderer implements Runnable {
         infoPanelGraphics2D.fillOval((int) pt.x - 5, (int) pt.y - 5, 20, 20);
     }
 
-    public void drawShape(List<Point> points, Color color, int x, int y, int downScale) {
+    public void drawShape(List<Point> points, Point cog, int distance, Color color, int x, int y, int downScale) {
         infoPanelGraphics2D.setColor(Color.YELLOW);
         infoPanelGraphics2D.fillRect(x, y, screenPanel.getSize().width / downScale, screenPanel.getSize().height / downScale);
         infoPanelGraphics2D.setColor(color);
@@ -146,6 +146,10 @@ public class HandGestureGraphicRenderer implements Runnable {
                 infoPanelGraphics2D.setColor(Color.CYAN);
                 infoPanelGraphics2D.fillOval(x + (int) pt.x / downScale - 5, y + (int) pt.y / downScale - 5, 10, 10);
             }
+
+            infoPanelGraphics2D.setColor(Color.RED);
+            infoPanelGraphics2D.fillOval(x + (int) cog.x / downScale - 5, y + (int) cog.y / downScale - 5, 10, 10);
+            infoPanelGraphics2D.drawOval(x + (int) cog.x / downScale, y + (int) cog.y / downScale, distance, distance);
         }
     }
 
@@ -198,10 +202,10 @@ public class HandGestureGraphicRenderer implements Runnable {
             polygon.lineTo(x1Points[index], y1Points[index]);
         }
         polygon.closePath();
-        g.drawImage(bufferedImage,0,0,null);
+        g.drawImage(bufferedImage, 0, 0, null);
         g.setColor(Color.BLACK);
         g.fill(polygon);
-        
+
         return convertToMat(bi);
     }
 

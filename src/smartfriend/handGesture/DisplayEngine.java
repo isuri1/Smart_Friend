@@ -139,21 +139,22 @@ public class DisplayEngine {
               
             }
         }
-        Object[] sortedPoints = points.toArray();
-        Sort.quicksort(sortedPoints, new Compare() {
-            @Override
-            public int doCompare(Object o1, Object o2) {
-//                return Double.compare(Math.max(Consts.SCREEN_WIDHT - ((Point) o1).x, Consts.SCREEN_HEIGHT - ((Point) o1).y),
-//                        Math.min(Consts.SCREEN_WIDHT - ((Point) o2).x, Consts.SCREEN_HEIGHT - ((Point) o2).y));
-            
-                return Double.compare(Math.max(((Point) o1).x, ((Point) o1).y),
-                        Math.max(((Point) o2).x, ((Point) o2).y));
-            }
-        });
-        System.out.println("Points : "+ points.size());
-        for (int i = points.size() * 2 / 10; i < points.size(); i++) {
-            points.remove((Point)sortedPoints[i]);
-        }
+//        Object[] sortedPoints = points.toArray();
+//        Sort.quicksort(sortedPoints, new Compare() {
+//            @Override
+//            public int doCompare(Object o1, Object o2) {
+////                return Double.compare(Math.max(Consts.SCREEN_WIDHT - ((Point) o1).x, Consts.SCREEN_HEIGHT - ((Point) o1).y),
+////                        Math.min(Consts.SCREEN_WIDHT - ((Point) o2).x, Consts.SCREEN_HEIGHT - ((Point) o2).y));
+//            
+//                return Double.compare(Math.max(((Point) o1).x, ((Point) o1).y),
+//                        Math.max(((Point) o2).x, ((Point) o2).y));
+//            }
+//        });
+//        System.out.println("Points : "+ points.size());
+//        for (int i = points.size() * 5 / 10; i < points.size(); i++) {
+//            points.remove((Point)sortedPoints[i]);
+//            System.out.println("Removed " + (Point)sortedPoints[i]);
+//        }
         return points;
 
 
