@@ -38,31 +38,14 @@ public class HandDetector {
     private SimplePolygon2D biggestContour;
     private Point pointerHistoryPoint;
 
-    HandDetector(DisplayEngine de, HandGestureGraphicRenderer gr, Camera camera) {
+    HandDetector(DisplayEngine de, HandGestureGraphicRenderer gr, Mat initialImageMat) {
         displayEngine = de;
         graphicRenderer = gr;
         graphicRenderer.wipeScreen();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(HandDetector.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("Taking the black pic");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(HandDetector.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("@@@@@Taking the black pic");
-        initialImage = new Mat(camera.capturePhoto().clone(), new Rect(0, 0, 640, 480));
-        System.out.println(initialImage);
-        //camera.saveImage(initialImage);
-        graphicRenderer.drawImageOnInfoPanel(initialImage, 960, 0, 2);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(HandDetector.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.initialImage = initialImageMat;
+        
+        graphicRenderer.drawImageOnInfoPanel(initialImage, 960, 0 + 50, 2);
+        
         graphicRenderer.startGraphicRendererThread();
     }
 
@@ -73,30 +56,27 @@ public class HandDetector {
         Mat img = image.clone();
         //resize image to speedup
         Core.absdiff(image, initialImage, image);
-        BufferedImage convertedImg = new BufferedImage(screenImage.getWidth(), screenImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-        convertedImg.getGraphics().drawImage(screenImage, 0, 0, null);
-        graphicRenderer.drawImageOnInfoPanel(convertedImg, 960, 240, 2);
-        byte[] pixels = ((DataBufferByte) convertedImg.getRaster().getDataBuffer()).getData();
-        Mat mat = new Mat(screenImage.getHeight(), screenImage.getWidth(), CvType.CV_8UC3);
-        mat.put(0, 0, pixels);
+        
+        graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 240+ 50, 2);
+        
         //graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 0, 2);
 
-       // Core.absdiff(image, mat, image);
-        graphicRenderer.drawImageOnInfoPanel(image, 960, 480, 2);
+        Core.absdiff(image, graphicRenderer.convertToMat(screenImage), image);
+        graphicRenderer.drawImageOnInfoPanel(image, 960, 480+ 50, 2);
 
         Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
         Imgproc.threshold(image, image, IMG_THRESHOLD_VAL, 255, Imgproc.THRESH_BINARY);
-        graphicRenderer.drawImageOnInfoPanel(image, 640, 0, 2);
+        graphicRenderer.drawImageOnInfoPanel(image, 640, 0+ 50, 2);
         ArrayList<MatOfPoint> contours = new ArrayList<>();
 
         Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
         if (contours.size() > 0) {
-            List<Point> transformedBiggestContour = getBiggestContour(contours);
+            ArrayList<Point> transformedBiggestContour = getBiggestContour(contours);
             if (transformedBiggestContour != null) {
-                ArrayList<Point> transformedHandPoints = displayEngine.removeBoarderPoints(new ArrayList<>(transformedBiggestContour));
-                graphicRenderer.drawShape(transformedHandPoints, Color.PINK, 640, 240, 4);
-                pointer = smoothenPoint(computeHandInfo(transformedHandPoints));
+//                ArrayList<Point> transformedHandPoints = displayEngine.removeBoarderPoints(new ArrayList<>(transformedBiggestContour));
+                graphicRenderer.drawShape(transformedBiggestContour, Color.PINK, 640, 240+ 50, 4);
+                pointer = smoothenPoint(computeHandInfo(transformedBiggestContour));
 //                graphicRenderer.drawPointsOnScreen(transformedHandPoints);
 //                if (pointer != null) {
 //                    graphicRenderer.drawPointerOnScreen(pointer);
@@ -106,11 +86,11 @@ public class HandDetector {
         return pointer;
     }
 
-    private List<Point> getBiggestContour(ArrayList<MatOfPoint> contours) {
+    private ArrayList<Point> getBiggestContour(ArrayList<MatOfPoint> contours) {
         ArrayList<Point> biggestPoints = null;
         SimplePolygon2D biggestPolygon = null;
         for (MatOfPoint points : contours) {
-            ArrayList<Point> pointsArrayList = displayEngine.removeOutsidePoints(new ArrayList<>(points.toList()));
+            ArrayList<Point> pointsArrayList = displayEngine.transformAndRemovePoints(new ArrayList<>(points.toList()));
             if (pointsArrayList.size() < 3) {
                 continue;
             }

@@ -57,7 +57,7 @@ public class Camera {
         }
     }
 
-    public void saveImage(Mat image) {
-        Highgui.imwrite("D:/camera.jpg", image);
+    public void saveImage(Mat image, String name) {
+        Highgui.imwrite("D:/FYP/" + name + ".jpg", image);
     }
 }

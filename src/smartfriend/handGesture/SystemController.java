@@ -95,10 +95,11 @@ public class SystemController {
     public BufferedImage getSkewedScreenShot() {
         BufferedImage screenShot = robot.createScreenCapture(new Rectangle(0, 0, Consts.SCREEN_WIDHT, Consts.SCREEN_HEIGHT));
         Image image = new Image(screenShot);
-        image.setCorners((int) boundryPoints.get(0).x, (int) boundryPoints.get(0).y, //UL
-                (int) boundryPoints.get(3).x, (int) boundryPoints.get(03).y, //UR
-                (int) boundryPoints.get(2).x, (int) boundryPoints.get(2).y, //LR
-                (int) boundryPoints.get(1).x, (int) boundryPoints.get(1).y);         //LL
+        
+        image.setCorners((int) boundryPoints.get(2).x, (int) boundryPoints.get(2).y, //UL
+                (int) boundryPoints.get(1).x, (int) boundryPoints.get(1).y, //UR
+                (int) boundryPoints.get(0).x, (int) boundryPoints.get(0).y, //LR
+                (int) boundryPoints.get(3).x, (int) boundryPoints.get(3).y);         //LL
         image.crop(0, 0, imgWidth, imgHeight);
         Image anImage = new Image(640, 480);
         anImage.addImage(image, boundryX, boundryY, true);

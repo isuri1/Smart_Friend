@@ -4,6 +4,7 @@
  */
 package smartfriend.handGesture;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -16,7 +17,10 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import smartfriend.gui.HandGestureGraphicRenderer;
+import smartfriend.util.general.Consts;
 import smartfriend.util.general.PointTransform;
+import sun.misc.Compare;
+import sun.misc.Sort;
 
 /**
  *
@@ -28,9 +32,11 @@ public class DisplayEngine {
     private ArrayList<Point> boundryPoints;
     private Dimension displaySize;
     private Mat initialImage;
+    private Camera camera;
 
     public DisplayEngine(Camera camera, Dimension displaySize, HandGestureGraphicRenderer graphicRenderer) {
         this.displaySize = displaySize;
+        this.camera = camera;
         while (true) {
             initialImage = camera.capturePhoto();
             boundryPoints = findBoundaries(initialImage.clone());
@@ -39,18 +45,18 @@ public class DisplayEngine {
                 for (Point pt : boundryPoints) {
                     System.out.println(" x : " + pt.x + "   " + pt.y);
                 }
-                graphicRenderer.drawPointsOnInfoPanel(camera.capturePhoto(), boundryPoints, Color.GREEN,1);
+                graphicRenderer.drawPointsOnInfoPanel(camera.capturePhoto(), boundryPoints, Color.GREEN, 1);
                 PointTransform.initialize(boundryPoints, displaySize);
                 break;
             }
         }
     }
-    
-    public Dimension getDisplayDimension(){
+
+    public Dimension getDisplayDimension() {
         return displaySize;
     }
-    
-    public ArrayList<Point> getBoundryPointsI(){
+
+    public ArrayList<Point> getBoundryPoints() {
         return boundryPoints;
     }
 
@@ -59,9 +65,12 @@ public class DisplayEngine {
     }
 
     private ArrayList<Point> findBoundaries(Mat image) {
+        camera.saveImage(image, "1");
         ArrayList<Point> boundryPoints = new ArrayList<>();
         Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
+        camera.saveImage(image, "2");
         Imgproc.threshold(image, image, IMG_THRESHOLD_VAL, 255, Imgproc.THRESH_BINARY);
+        camera.saveImage(image, "3");
         ArrayList<MatOfPoint> contours = new ArrayList<>();
 
         Mat hierachy = new Mat();
@@ -114,7 +123,7 @@ public class DisplayEngine {
         return sortedPointsArrayList;
     }
 
-    public ArrayList<Point> removeOutsidePoints(ArrayList<Point> pointsList) {
+    public ArrayList<Point> transformAndRemovePoints(ArrayList<Point> pointsList) {
 
         ArrayList<Point> points = null;
         try {
@@ -123,40 +132,50 @@ public class DisplayEngine {
             Logger.getLogger(DisplayEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        int boaderSize = 0;
-        ArrayList<Point> modifiedPoints = new ArrayList<>();
-        for (Point pt : points) {
-            if (pt.x < boaderSize | pt.x > (displaySize.width - boaderSize)) {
-                continue;
-            } else if (pt.y < boaderSize | pt.y > displaySize.height - boaderSize) {
-                continue;
-            } else {
-                modifiedPoints.add(pt);
+        for (int i = 0; i < points.size(); i++) {
+            Point pt = points.get(i);
+            if (pt.x < 0 | pt.x > displaySize.width | pt.y < 0 | pt.y > displaySize.height) {
+                points.remove(i);
+              
             }
         }
-        return modifiedPoints;
+        Object[] sortedPoints = points.toArray();
+        Sort.quicksort(sortedPoints, new Compare() {
+            @Override
+            public int doCompare(Object o1, Object o2) {
+//                return Double.compare(Math.max(Consts.SCREEN_WIDHT - ((Point) o1).x, Consts.SCREEN_HEIGHT - ((Point) o1).y),
+//                        Math.min(Consts.SCREEN_WIDHT - ((Point) o2).x, Consts.SCREEN_HEIGHT - ((Point) o2).y));
+            
+                return Double.compare(Math.max(((Point) o1).x, ((Point) o1).y),
+                        Math.max(((Point) o2).x, ((Point) o2).y));
+            }
+        });
+        System.out.println("Points : "+ points.size());
+        for (int i = points.size() * 2 / 10; i < points.size(); i++) {
+            points.remove((Point)sortedPoints[i]);
+        }
+        return points;
 
 
     }
-
-    public ArrayList<Point> removeBoarderPoints(ArrayList<Point> pointsList) {
-
-        if (pointsList.size() > 4) {
-            int boaderSize = 10;
-            ArrayList<Point> modifiedPoints = new ArrayList<>();
-            for (Point pt : pointsList) {
-                if (pt.x < boaderSize | pt.x > (displaySize.width - boaderSize)) {
-                    continue;
-                } else if (pt.y < boaderSize | pt.y > displaySize.height - boaderSize) {
-                    continue;
-                } else {
-                    modifiedPoints.add(pt);
-                }
-            }
-            return modifiedPoints;
-        } else {
-            return pointsList;
-        }
-
-    }
+//    public ArrayList<Point> removeBoarderPoints(ArrayList<Point> pointsList) {
+//        System.out.println("@@@@@ " + pointsList.size());
+//        if (pointsList.size() > 4) {
+//            int boaderSize = 10;
+//            ArrayList<Point> modifiedPoints = new ArrayList<>();
+//            for (Point pt : pointsList) {
+//                if (pt.x < boaderSize | pt.x > (displaySize.width - boaderSize)) {
+//                    continue;
+//                } else if (pt.y < boaderSize | pt.y > displaySize.height - boaderSize) {
+//                    continue;
+//                } else {
+//                    modifiedPoints.add(pt);
+//                }
+//            }
+//            return modifiedPoints;
+//        } else {
+//            return pointsList;
+//        }
+//
+//    }
 }

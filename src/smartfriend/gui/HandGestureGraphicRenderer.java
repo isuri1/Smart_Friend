@@ -10,6 +10,7 @@ import java.awt.Container;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
@@ -47,10 +49,10 @@ public class HandGestureGraphicRenderer implements Runnable {
         screenPanel = new HandGestureDisplayPanel();
         base.setGlassPane(screenPanel);
         base.getGlassPane().setVisible(true);
-        c.add(testPanel, -1);        
+       // c.add(testPanel, -1);
     }
-    
-    public void startGraphicRendererThread(){
+
+    public void startGraphicRendererThread() {
         new Thread(this).start();
     }
 
@@ -59,7 +61,7 @@ public class HandGestureGraphicRenderer implements Runnable {
         infoPanel.getContentPane().setLayout(new BorderLayout());
         JPanel jPanel = new JPanel();
         infoPanel.getContentPane().add(jPanel, BorderLayout.CENTER);
-        infoPanel.setSize(1280, 600);
+        infoPanel.setSize(1280, 800);
         infoPanel.setVisible(true);
         infoPanel.setLayout(new BorderLayout());
         return infoPanel;
@@ -172,5 +174,45 @@ public class HandGestureGraphicRenderer implements Runnable {
             }
         }
 
+    }
+
+    public Mat drawShapeOnImage(Mat initialImageMat, ArrayList<Point> points) {
+        BufferedImage bi = new BufferedImage(initialImageMat.width(), initialImageMat.height(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = bi.createGraphics();
+        BufferedImage bufferedImage = getImage(initialImageMat);
+        int x1Points[] = new int[points.size()];
+        int y1Points[] = new int[points.size()];
+        for (int i = 0; i < points.size(); i++) {
+            //g2d.fillOval(pt.x - 10, pt.y - 10, 20, 20);
+            Point pt = points.get(i);
+            x1Points[i] = (int) pt.x;
+            y1Points[i] = (int) pt.y;
+        }
+
+        GeneralPath polygon =
+                new GeneralPath(GeneralPath.WIND_EVEN_ODD,
+                x1Points.length);
+        polygon.moveTo(x1Points[0], y1Points[0]);
+
+        for (int index = 1; index < x1Points.length; index++) {
+            polygon.lineTo(x1Points[index], y1Points[index]);
+        }
+        polygon.closePath();
+        g.drawImage(bufferedImage,0,0,null);
+        g.setColor(Color.BLACK);
+        g.fill(polygon);
+        
+        return convertToMat(bi);
+    }
+
+    public Mat convertToMat(BufferedImage bufferedImage) {
+        BufferedImage convertedImg;
+        Mat mat;
+        convertedImg = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+        convertedImg.getGraphics().drawImage(bufferedImage, 0, 0, null);
+        byte[] pixels = ((DataBufferByte) convertedImg.getRaster().getDataBuffer()).getData();
+        mat = new Mat(bufferedImage.getHeight(), bufferedImage.getWidth(), CvType.CV_8UC3);
+        mat.put(0, 0, pixels);
+        return mat;
     }
 }

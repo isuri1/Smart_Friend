@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import smartfriend.gui.GUIForm;
 import smartfriend.gui.HandGestureGraphicRenderer;
@@ -47,9 +48,9 @@ public class HandGestureRecongnition implements Runnable {
         graphicRenderer = new HandGestureGraphicRenderer(gUIForm);
         gUIForm.setVisible(true);
         displayEngine = new DisplayEngine(camera, gUIForm.getDisplyDimentions(), graphicRenderer);
-
-        handDetector = new HandDetector(displayEngine, graphicRenderer, camera);
-        systemController = new SystemController(gUIForm.getGraphicsDevice(), displayEngine.getBoundryPointsI());
+        Mat initialImage = graphicRenderer.drawShapeOnImage(displayEngine.getInitialImage(), displayEngine.getBoundryPoints());
+        handDetector = new HandDetector(displayEngine, graphicRenderer, initialImage);
+        systemController = new SystemController(gUIForm.getGraphicsDevice(), displayEngine.getBoundryPoints());
 
         gUIForm.addKeyListener(new KeyAdapter() {
             @Override
@@ -72,34 +73,23 @@ public class HandGestureRecongnition implements Runnable {
         new HandGestureRecongnition();
     }
 
-    private JFrame setUpInfoPanel() {
-        JFrame infoPanel = new JFrame("Info Panel");
-        infoPanel.getContentPane().setLayout(new BorderLayout());
-        JPanel jPanel = new JPanel();
-        infoPanel.getContentPane().add(jPanel, BorderLayout.CENTER);
-        infoPanel.setSize(1280, 600);
-        infoPanel.setVisible(true);
-        infoPanel.setLayout(new BorderLayout());
-        return infoPanel;
-    }
-
     @Override
     public void run() {
         System.out.println("Started Hand Gesture Recognition Thread");
         Point handpointer;
         BufferedImage screenImage;
-        int boundryX = (int) Math.min(displayEngine.getBoundryPointsI().get(0).x, displayEngine.getBoundryPointsI().get(1).x);
-        int boundryY = (int) Math.min(displayEngine.getBoundryPointsI().get(0).y, displayEngine.getBoundryPointsI().get(3).y);
+        int boundryX = (int) Math.min(displayEngine.getBoundryPoints().get(0).x, displayEngine.getBoundryPoints().get(1).x);
+        int boundryY = (int) Math.min(displayEngine.getBoundryPoints().get(0).y, displayEngine.getBoundryPoints().get(3).y);
 
         while (true) {
             //gUIForm.setOpacity(0.5f);
             screenImage = systemController.getSkewedScreenShot();
-           
+
             //graphicRenderer.drawImageOnInfoPanel(screenImage, 1);
             handpointer = handDetector.getHandPoint(camera.capturePhoto(), screenImage);
             graphicRenderer.drawPointerOnScreen(handpointer);
-            systemController.moveMousePointer(handpointer);
-           
+//            systemController.moveMousePointer(handpointer);
+
         }
     }
 }
