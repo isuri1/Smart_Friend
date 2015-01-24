@@ -4,16 +4,11 @@
  */
 package smartfriend.handGesture;
 
-import java.awt.BorderLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import smartfriend.gui.GUIForm;
@@ -45,25 +40,25 @@ public class HandGestureRecongnition implements Runnable {
         gUIForm = new GUIForm();
         camera = new Camera(Consts.CAMERA_ID);
 
-        graphicRenderer = new HandGestureGraphicRenderer(gUIForm);
+        graphicRenderer = new HandGestureGraphicRenderer(gUIForm, camera);
         gUIForm.setVisible(true);
         displayEngine = new DisplayEngine(camera, gUIForm.getDisplyDimentions(), graphicRenderer);
         Mat initialImage = graphicRenderer.drawShapeOnImage(displayEngine.getInitialImage(), displayEngine.getBoundryPoints());
         handDetector = new HandDetector(displayEngine, graphicRenderer, initialImage);
         systemController = new SystemController(gUIForm.getGraphicsDevice(), displayEngine.getBoundryPoints());
 
-        gUIForm.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                if ((keyCode == KeyEvent.VK_NUMPAD5) || (keyCode == KeyEvent.VK_ENTER)
-                        || (keyCode == KeyEvent.VK_SPACE)) // take a snap when press NUMPAD-5, enter, or space is pressed
-                {
-                    System.out.println("DDDDDD");
-                    System.exit(0);
-                }
-            }
-        });
+//        gUIForm.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//                int keyCode = e.getKeyCode();
+//                if ((keyCode == KeyEvent.VK_NUMPAD5) || (keyCode == KeyEvent.VK_ENTER)
+//                        || (keyCode == KeyEvent.VK_SPACE)) // take a snap when press NUMPAD-5, enter, or space is pressed
+//                {
+//                    System.out.println("DDDDDD");
+//                    System.exit(0);
+//                }
+//            }
+//        });
         new Thread(this).start();
 
 

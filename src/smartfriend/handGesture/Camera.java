@@ -6,6 +6,8 @@ package smartfriend.handGesture;
 
 import com.sun.corba.se.impl.interceptors.PICurrent;
 import java.awt.Dimension;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
@@ -57,7 +59,16 @@ public class Camera {
         }
     }
 
-    public void saveImage(Mat image, String name) {
-        Highgui.imwrite("D:/FYP/" + name + ".jpg", image);
+//    public void saveImage(Mat image, String name) {
+//        Highgui.imwrite("D:/FYP/test/" + name + ".jpg", image);
+//    }
+    
+    public static void saveImage(Mat image, String name) {
+        Highgui.imwrite("D:/FYP/test/" + name + ".jpg", image);
+    }
+    
+    public void takeSaveImage(){
+        System.out.println("#### saving");
+        saveImage(capturePhoto(), new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
     }
 }

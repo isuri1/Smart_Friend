@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -25,6 +27,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
 import org.opencv.highgui.Highgui;
+import smartfriend.handGesture.Camera;
 import smartfriend.util.general.Consts;
 
 /**
@@ -36,24 +39,56 @@ public class HandGestureGraphicRenderer implements Runnable {
     private JFrame infoPanel;
     private Graphics2D infoPanelGraphics2D;
     private HandGestureDisplayPanel screenPanel;
+    private Container panelContainer;
+    private JPanel welcomeScreen , mainScreen;
 //    private GUIForm basePanel;
 
-    public HandGestureGraphicRenderer(GUIForm base) {
+    public HandGestureGraphicRenderer(GUIForm base, final Camera camera) {
         infoPanel = setUpInfoPanel();
+
+        infoPanel.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                System.out.println("key pressed " + e);
+                int keyCode = e.getKeyCode();
+                if ((keyCode == KeyEvent.VK_NUMPAD5) || (keyCode == KeyEvent.VK_ENTER)
+                        || (keyCode == KeyEvent.VK_SPACE)) // take a snap when press NUMPAD-5, enter, or space is pressed
+                {
+                    Consts.saveImage = true;
+                    camera.takeSaveImage();
+
+                }
+            }
+        });
+
 //        basePanel = base;
         infoPanelGraphics2D = (Graphics2D) infoPanel.getGraphics();
 
-        Container c = base.getContentPane();
+        panelContainer = base.getContentPane();
+        welcomeScreen = new WelcomeScreen(this);
+        mainScreen = new MainScreen();
+        welcomeScreen.setVisible(false);
+        mainScreen.setVisible(false);
+        
+        panelContainer.add(welcomeScreen, -1);
+        panelContainer.add(mainScreen, -1);
 
-        JPanel testPanel = new TestPanel();
         screenPanel = new HandGestureDisplayPanel();
         base.setGlassPane(screenPanel);
         base.getGlassPane().setVisible(true);
-        // c.add(testPanel, -1);
+
+
     }
 
     public void startGraphicRendererThread() {
         new Thread(this).start();
+        welcomeScreen.setVisible(true);
+
+    }
+    
+    public void showMainScreen(){
+        mainScreen.setVisible(true);
+        System.out.println("main screen visible");
+        panelContainer.remove(welcomeScreen);
     }
 
     private JFrame setUpInfoPanel() {
@@ -64,6 +99,7 @@ public class HandGestureGraphicRenderer implements Runnable {
         infoPanel.setSize(1280, 800);
         infoPanel.setVisible(true);
         infoPanel.setLayout(new BorderLayout());
+
         return infoPanel;
     }
 

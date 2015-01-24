@@ -49,6 +49,7 @@ public class DisplayEngine {
                 PointTransform.initialize(boundryPoints, displaySize);
                 break;
             }
+            System.out.println("unsucessfull" + boundryPoints.size());
         }
     }
 
@@ -65,12 +66,18 @@ public class DisplayEngine {
     }
 
     private ArrayList<Point> findBoundaries(Mat image) {
-        camera.saveImage(image, "1");
+        if (Consts.saveImage) {
+            camera.saveImage(image, "1");
+        }
         ArrayList<Point> boundryPoints = new ArrayList<>();
         Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
-        camera.saveImage(image, "2");
+        if (Consts.saveImage) {
+            camera.saveImage(image, "2");
+        }
         Imgproc.threshold(image, image, IMG_THRESHOLD_VAL, 255, Imgproc.THRESH_BINARY);
-        camera.saveImage(image, "3");
+        if (Consts.saveImage) {
+            camera.saveImage(image, "3999");
+        }
         ArrayList<MatOfPoint> contours = new ArrayList<>();
 
         Mat hierachy = new Mat();
@@ -136,7 +143,7 @@ public class DisplayEngine {
             Point pt = points.get(i);
             if (pt.x < 0 | pt.x > displaySize.width | pt.y < 0 | pt.y > displaySize.height) {
                 points.remove(i);
-              
+
             }
         }
 //        Object[] sortedPoints = points.toArray();

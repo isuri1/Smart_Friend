@@ -4,13 +4,16 @@
  */
 package smartfriend.handGesture;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import math.geom2d.Point2D;
 import math.geom2d.polygon.SimplePolygon2D;
 import org.opencv.core.Core;
@@ -28,7 +31,7 @@ import smartfriend.util.general.Consts;
  */
 public class HandDetector {
 
-    private static final int IMG_THRESHOLD_VAL = 145;
+    private static final int IMG_THRESHOLD_VAL = 75;
     private static final double POINTER_SMOOTH_RATIO = 0.5;
     private HandGestureGraphicRenderer graphicRenderer;
     private DisplayEngine displayEngine;
@@ -61,7 +64,10 @@ public class HandDetector {
         graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 240 + 50, 2);
 
         //graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 0, 2);
-
+        if (Consts.saveImage) {
+            Camera.saveImage(graphicRenderer.convertToMat(screenImage), "screenImage");
+            Consts.saveImage = false;
+        }
         Core.absdiff(image, graphicRenderer.convertToMat(screenImage), image);
         graphicRenderer.drawImageOnInfoPanel(image, 960, 480 + 50, 2);
 
@@ -130,7 +136,7 @@ public class HandDetector {
         if (points.size() > 2) {
             ArrayList<Point2D> point2DList;
             SimplePolygon2D polygon;
-            Point2D centorid, distantPoint = null;
+            Point2D centorid, distantPoint = new Point2D();
             double distance = 0;
 
             point2DList = new ArrayList<>(points.size());
@@ -139,8 +145,8 @@ public class HandDetector {
             }
             polygon = new SimplePolygon2D(point2DList);
             centorid = polygon.centroid();
-            cog.x  = centorid.getX();
-            cog.y  = centorid.getY();
+            cog.x = centorid.getX();
+            cog.y = centorid.getY();
             for (Point2D pt : point2DList) {
                 double dist = centorid.distance(pt);
                 if (distance < dist) {
