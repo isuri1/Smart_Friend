@@ -20,7 +20,13 @@ public class ImageXMLParser {
     private String imageName;
     private String imageLocation;
     private String imageDescription;
-
+    private String xmlName;
+    
+    public ImageXMLParser(String xmlName){
+        
+        this.xmlName=xmlName;
+    }
+    
     public void setImageDetails(String ID, String name,String imageDescription, String location) {
         this.ID = ID;
         this.imageName = name;
@@ -55,7 +61,7 @@ public class ImageXMLParser {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             // Load the input XML document, parse it and return an instance of the Document class.
-            Document document = builder.parse(MainConfiguration.getCurrentDirectory() + MainConfiguration.getInstance().getProperty("images"));
+            Document document = builder.parse(MainConfiguration.getCurrentDirectory() + MainConfiguration.getInstance().getProperty(xmlName));
 
             NodeList nodeList = document.getDocumentElement().getChildNodes();
 

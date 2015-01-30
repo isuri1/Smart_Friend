@@ -1,4 +1,4 @@
-package smartfriend.applications;
+package smartfriend.applications.numberlearning;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -49,7 +49,7 @@ public class NumberApp extends JFrame {
 
     public NumberApp() {
 
-        xml = new ImageXMLParser();
+        xml = new ImageXMLParser("nlImagesPath");
         talk = new TextToSpeech();
         
         JWindow window = new JWindow();

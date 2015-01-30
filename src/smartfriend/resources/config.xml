@@ -3,8 +3,11 @@
 <properties>
 <comment>Configuration File</comment>
 
-<entry key="images">/src/smartfriend/resources/image_details.xml</entry>
+<entry key="nlImagesPath">/src/smartfriend/applications/numberlearning/resources/nl_image_details.xml</entry>
 <entry key="acousticModelPath">/src/smartfriend/resources/speech/models/en-usadapt-number</entry>
 <entry key="dictionaryPath">/src/smartfriend/resources/speech/models/en-usadapt-number/dic/cmudict.0.6d</entry>
 <entry key="languageModelPath">/src/smartfriend/resources/speech/models/en-usadapt-number/language/7257.lm</entry>
+<entry key="userDetailsFilePath">/src/smartfriend/applications/userprofile/resources/userdetails.txt</entry>
+<entry key="recordingFilePath">/src/smartfriend/applications/scheduler/resources/recordings/record</entry>
+<entry key="schedulerFilePath">/src/smartfriend/applications/scheduler/resources/scheduler.txt</entry>
 </properties>

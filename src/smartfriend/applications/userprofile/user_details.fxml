@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1370.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartfriend.applications.userprofile.controller.UserController">
+   <children>
+      <ImageView fitHeight="741.0" fitWidth="1395.0" layoutX="-11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/images/up_background.jpg" />
+         </image>
+      </ImageView>
+      <Pane layoutX="-3.0" prefHeight="700.0" prefWidth="1370.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TextField fx:id="nameField" layoutX="709.0" layoutY="272.0" prefHeight="25.0" prefWidth="214.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label layoutX="473.0" layoutY="262.0" text="First Name" textFill="#f25b04">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <TextField fx:id="emailField" alignment="CENTER_RIGHT" layoutX="709.0" layoutY="568.0" prefHeight="25.0" prefWidth="226.0" promptText="abc@gmail">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label layoutX="473.0" layoutY="558.0" text="Emai Addressl" textFill="#f25b04">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="473.0" layoutY="344.0" text="Birth Day" textFill="#f25b04">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="594.0" layoutY="166.0" text="Child Details" textFill="#e0960c">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="579.0" layoutY="454.0" text="Parent Details" textFill="#e0960c">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="938.0" layoutY="572.0" text=".com">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Button fx:id="SaveDetailsButton" layoutX="1215.0" layoutY="619.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="121.0" text="Save" textFill="#f25b04">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <ComboBox fx:id="yearComboBox" layoutX="709.0" layoutY="351.0" prefHeight="31.0" prefWidth="79.0" promptText="Year" visibleRowCount="5" />
+            <ComboBox fx:id="monthComboBox" layoutX="802.0" layoutY="351.0" prefHeight="31.0" prefWidth="121.0" promptText="Month" visibleRowCount="5" />
+            <ComboBox fx:id="dayComboBox" layoutX="938.0" layoutY="351.0" prefHeight="31.0" prefWidth="79.0" promptText="Day" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
