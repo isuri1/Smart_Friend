@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import smartfriend.util.general.Consts;
-import sun.awt.windows.ThemeReader;
 
 /**
  *

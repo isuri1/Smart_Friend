@@ -6,14 +6,9 @@ package smartfriend.handGesture;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import math.geom2d.Point2D;
 import math.geom2d.polygon.SimplePolygon2D;
 import org.opencv.core.Core;

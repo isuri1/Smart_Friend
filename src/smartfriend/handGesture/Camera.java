@@ -4,7 +4,6 @@
  */
 package smartfriend.handGesture;
 
-import com.sun.corba.se.impl.interceptors.PICurrent;
 import java.awt.Dimension;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
