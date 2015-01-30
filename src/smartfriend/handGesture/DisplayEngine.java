@@ -4,7 +4,6 @@
  */
 package smartfriend.handGesture;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -19,8 +18,6 @@ import org.opencv.imgproc.Imgproc;
 import smartfriend.gui.HandGestureGraphicRenderer;
 import smartfriend.util.general.Consts;
 import smartfriend.util.general.PointTransform;
-import sun.misc.Compare;
-import sun.misc.Sort;
 
 /**
  *
