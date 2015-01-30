@@ -4,10 +4,6 @@
  */
 package smartfriend.handGesture;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> refactor
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
