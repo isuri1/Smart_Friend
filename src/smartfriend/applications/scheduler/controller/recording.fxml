@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="recordingPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartfriend.applications.scheduler.controller.RecordingController">
+   <children>
+      <ImageView fitHeight="327.0" fitWidth="621.0" layoutX="-7.0" layoutY="-80.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/images/s_background.jpg" />
+         </image>
+      </ImageView>
+      <Pane prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="listenButton" layoutX="404.0" layoutY="35.0" mnemonicParsing="false" text="Listen" textFill="#f25b04">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+            <Button fx:id="startRecordingButton" layoutX="76.0" layoutY="35.0" mnemonicParsing="false" text="Start Recording" textFill="#f25b04">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+            <Button fx:id="saveButton" layoutX="473.0" layoutY="35.0" mnemonicParsing="false" text="Save" textFill="#f25b04">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
+            <Button fx:id="stopRecordingButton" layoutX="209.0" layoutY="35.0" mnemonicParsing="false" text="Stop Recording" textFill="#f25b04">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
