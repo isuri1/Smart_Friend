@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/speechRecognition/SpeechRecognizer.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/speechRecognition/JavaSoundRecorder.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/applications/NumberApp.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/resources/image_details.xml</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/resources/config.xml</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/util/general/ImageXMLParser.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/util/general/MainConfiguration.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/Smart_Friend/src/smartfriend/tts/TextToSpeech.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

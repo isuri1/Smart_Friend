@@ -4,186 +4,186 @@
      <Image ID="1">
           <Imagename>n1</Imagename >
           <Imagedescription>rabits</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n1.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n1.jpg</Imagelocation>
      </Image>
      <Image ID="2">
           <Imagename>n2</Imagename>
           <Imagedescription>pigs</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n2.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n2.jpg</Imagelocation>
      </Image>
      <Image ID="3">
           <Imagename>n3</Imagename>
           <Imagedescription>sheeps</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n3.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n3.jpg</Imagelocation>
      </Image>
      <Image ID="4">
           <Imagename>n4</Imagename>
           <Imagedescription>ducks</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n4.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n4.jpg</Imagelocation>
      </Image>
      <Image ID="5">
           <Imagename>n5</Imagename>
           <Imagedescription>mice</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n5.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n5.jpg</Imagelocation>
      </Image>
      <Image ID="6">
           <Imagename>n6</Imagename>
           <Imagedescription>sharks</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n6.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n6.jpg</Imagelocation>
      </Image>
      <Image ID="7">
           <Imagename>n7</Imagename>
           <Imagedescription>turtles</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n7.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n7.jpg</Imagelocation>
      </Image>
      <Image ID="8">
           <Imagename>n8</Imagename>
           <Imagedescription>crabs</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n8.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n8.jpg</Imagelocation>
      </Image>
      <Image ID="9">
           <Imagename>n9</Imagename>
           <Imagedescription>fish</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n9.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n9.jpg</Imagelocation>
      </Image>
      <Image ID="10">
           <Imagename>n10</Imagename>
           <Imagedescription>sea shells</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/n10.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/n10.jpg</Imagelocation>
      </Image>
      <Image ID="11">
           <Imagename>a1</Imagename >
           <Imagedescription>trace 1</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a1.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a1.png</Imagelocation>
      </Image>
      <Image ID="12">
           <Imagename>a2</Imagename >
           <Imagedescription>trace 2</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a2.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a2.png</Imagelocation>
      </Image>
      <Image ID="13">
           <Imagename>a3</Imagename >
           <Imagedescription>trace 3</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a3.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a3.png</Imagelocation>
      </Image>
      <Image ID="14">
           <Imagename>a4</Imagename >
           <Imagedescription>trace 4</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a4.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a4.png</Imagelocation>
      </Image>
      <Image ID="15">
           <Imagename>a5</Imagename >
           <Imagedescription>trace 5</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a5.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a5.png</Imagelocation>
      </Image>
      <Image ID="16">
           <Imagename>a6</Imagename >
           <Imagedescription>trace 6</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a6.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a6.png</Imagelocation>
      </Image>
      <Image ID="17">
           <Imagename>a7</Imagename >
           <Imagedescription>trace 7</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a7.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a7.png</Imagelocation>
      </Image>
      <Image ID="18">
           <Imagename>a8</Imagename >
           <Imagedescription>trace 8</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a8.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a8.png</Imagelocation>
      </Image>
      <Image ID="19">
           <Imagename>a9</Imagename >
           <Imagedescription>trace 9</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/a9.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/a9.png</Imagelocation>
      </Image>
      <Image ID="20">
           <Imagename>animated1</Imagename >
           <Imagedescription>animated 1</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated1.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated1.gif</Imagelocation>
      </Image>
      <Image ID="21">
           <Imagename>animated2</Imagename >
           <Imagedescription>animated 1</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated2.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated2.gif</Imagelocation>
      </Image>
      <Image ID="22">
           <Imagename>animated3</Imagename >
           <Imagedescription>animated 3</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated3.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated3.gif</Imagelocation>
      </Image>
      <Image ID="23">
           <Imagename>animated4</Imagename >
           <Imagedescription>animated 4</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated4.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated4.gif</Imagelocation>
      </Image>
      <Image ID="24">
           <Imagename>animated5</Imagename >
           <Imagedescription>animated 5</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated5.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated5.gif</Imagelocation>
      </Image>
      <Image ID="25">
           <Imagename>animated6</Imagename >
           <Imagedescription>animated 6</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated6.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated6.gif</Imagelocation>
      </Image>
      <Image ID="26">
           <Imagename>animated7</Imagename >
           <Imagedescription>animated 7</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated7.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated7.gif</Imagelocation>
      </Image>
      <Image ID="27">
           <Imagename>animated8</Imagename >
           <Imagedescription>animated 8</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated8.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated8.gif</Imagelocation>
      </Image>
      <Image ID="28">
           <Imagename>animated9</Imagename >
           <Imagedescription>animated 9</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated9.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated9.gif</Imagelocation>
      </Image>
      <Image ID="29">
           <Imagename>animated10</Imagename >
           <Imagedescription>animated 10</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/animated10.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/animated10.gif</Imagelocation>
      </Image>
      <Image ID="30">
           <Imagename>arrow_left</Imagename >
           <Imagedescription>arrow_left</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/arrow_left.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/arrow_left.png</Imagelocation>
      </Image>
      <Image ID="31">
           <Imagename>arrow_right</Imagename >
           <Imagedescription>arrow_right</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/arrow_right.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/arrow_right.png</Imagelocation>
      </Image>
      <Image ID="32">
           <Imagename>glitter_font</Imagename >
           <Imagedescription>glitter_font</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/font2.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/font2.gif</Imagelocation>
      </Image>
      <Image ID="33">
           <Imagename>fire_work1</Imagename >
           <Imagedescription>fire_work 1</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/fw2.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/fw2.gif</Imagelocation>
      </Image>
      <Image ID="34">
           <Imagename>fire_work2</Imagename >
           <Imagedescription>fire_work 2</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/fw7.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/fw7.gif</Imagelocation>
      </Image>
      <Image ID="35">
           <Imagename>loading</Imagename >
           <Imagedescription>app loading</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/loading2_c.gif</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/loading2_c.gif</Imagelocation>
      </Image>
      <Image ID="36">
           <Imagename>mic</Imagename >
           <Imagedescription>microphone</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/micman.png</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/micman.png</Imagelocation>
      </Image>
      <Image ID="37">
           <Imagename>background</Imagename >
           <Imagedescription>background</Imagedescription>
-          <Imagelocation>/src/smartfriend/resources/images/speech/rsz_happyday.jpg</Imagelocation>
+          <Imagelocation>/src/smartfriend/applications/numberlearning/resources/images/rsz_happyday.jpg</Imagelocation>
      </Image>
 </Images>
