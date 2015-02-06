@@ -40,7 +40,7 @@ public class HandGestureGraphicRenderer implements Runnable {
     private Graphics2D infoPanelGraphics2D;
     private HandGestureDisplayPanel screenPanel;
     private Container panelContainer;
-    private JPanel welcomeScreen , mainScreen;
+    private JPanel welcomeScreen , mainScreen, numberScreen;
 //    private GUIForm basePanel;
 
     public HandGestureGraphicRenderer(GUIForm base, final Camera camera) {
@@ -65,6 +65,7 @@ public class HandGestureGraphicRenderer implements Runnable {
 
         panelContainer = base.getContentPane();
         welcomeScreen = new WelcomeScreen(this);
+        numberScreen = new JPanel();
         mainScreen = new MainScreen();
         welcomeScreen.setVisible(false);
         mainScreen.setVisible(false);
@@ -153,7 +154,7 @@ public class HandGestureGraphicRenderer implements Runnable {
         infoPanelGraphics2D.fillOval((int) pt.x - 5, (int) pt.y - 5, 20, 20);
     }
 
-    public void drawShape(List<Point> points, Point cog, int distance, Color color, int x, int y, int downScale) {
+    public void drawShape(List<Point> points,List<Point> convexHull , Point cog, int distance, Color color, int x, int y, int downScale) {
         infoPanelGraphics2D.setColor(Color.YELLOW);
         infoPanelGraphics2D.fillRect(x, y, screenPanel.getSize().width / downScale, screenPanel.getSize().height / downScale);
         infoPanelGraphics2D.setColor(color);
@@ -180,6 +181,10 @@ public class HandGestureGraphicRenderer implements Runnable {
 
             for (Point pt : points) {
                 infoPanelGraphics2D.setColor(Color.CYAN);
+                infoPanelGraphics2D.fillOval(x + (int) pt.x / downScale - 5, y + (int) pt.y / downScale - 5, 10, 10);
+            }
+             for (Point pt : convexHull) {
+                infoPanelGraphics2D.setColor(Color.black);
                 infoPanelGraphics2D.fillOval(x + (int) pt.x / downScale - 5, y + (int) pt.y / downScale - 5, 10, 10);
             }
 

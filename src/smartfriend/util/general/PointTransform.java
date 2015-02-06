@@ -7,6 +7,7 @@ package smartfriend.util.general;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.media.jai.PerspectiveTransform;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 
 /**
@@ -33,7 +34,7 @@ public class PointTransform {
         }
         return instance;
     }
-    
+
     public static PointTransform initialize(ArrayList<Point> sortedBoarderPoints, Dimension displayDimension) {
         instance = new PointTransform(sortedBoarderPoints, displayDimension);
         return instance;
@@ -51,5 +52,19 @@ public class PointTransform {
             points.add(i, transfromPoint(points.remove(i)));
         }
         return points;
+    }
+
+    public MatOfPoint transfromAndRemovePoints(MatOfPoint points) {
+        MatOfPoint transfromedPoints = new MatOfPoint();
+        ArrayList<Point> transformedPointsArrayList = new ArrayList<>();
+        for (int i = 0; i < points.size().height; i++) {
+            Point pt = new Point(points.get(i, 0)[0], points.get(i, 0)[1]);
+            pt = transfromPoint(pt);
+//            if (pt.x  < 0 | pt.x > Consts.SCREEN_WIDHT | pt.y < 0 | pt.y > Consts.SCREEN_HEIGHT) {
+//                continue;
+//            }
+            transformedPointsArrayList.add(pt);
+        }
+        return new MatOfPoint(transformedPointsArrayList.toArray(new Point[0]));
     }
 }

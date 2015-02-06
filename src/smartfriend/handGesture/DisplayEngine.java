@@ -50,6 +50,23 @@ public class DisplayEngine {
         }
     }
 
+    public DisplayEngine(Mat img, Dimension displaySize) {
+        this.displaySize = displaySize;
+        while (true) {
+            initialImage = img;
+            boundryPoints = findBoundaries(initialImage.clone());
+            if (boundryPoints.size() > 0) {
+                boundryPoints = sortPoints(boundryPoints);
+                for (Point pt : boundryPoints) {
+                    System.out.println(" x : " + pt.x + "   " + pt.y);
+                }
+                PointTransform.initialize(boundryPoints, displaySize);
+                break;
+            }
+            System.out.println("unsucessfull" + boundryPoints.size());
+        }
+    }
+
     public Dimension getDisplayDimension() {
         return displaySize;
     }
@@ -143,6 +160,8 @@ public class DisplayEngine {
 
             }
         }
+
+
 //        Object[] sortedPoints = points.toArray();
 //        Sort.quicksort(sortedPoints, new Compare() {
 //            @Override
@@ -160,8 +179,16 @@ public class DisplayEngine {
 //            System.out.println("Removed " + (Point)sortedPoints[i]);
 //        }
         return points;
+    }
 
-
+    public MatOfPoint transformAndRemovePoints(MatOfPoint matOfPoint) {
+        MatOfPoint points = null;
+        try {
+            points = PointTransform.getInstance().transfromAndRemovePoints(matOfPoint);
+        } catch (Exception ex) {
+            Logger.getLogger(DisplayEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return points;
     }
 //    public ArrayList<Point> removeBoarderPoints(ArrayList<Point> pointsList) {
 //        System.out.println("@@@@@ " + pointsList.size());

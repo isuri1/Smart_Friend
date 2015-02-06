@@ -6,6 +6,7 @@ package smartfriend.handGesture;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageProducer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,6 +14,7 @@ import math.geom2d.Point2D;
 import math.geom2d.polygon.SimplePolygon2D;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
@@ -34,6 +36,7 @@ public class HandDetector {
     private SimplePolygon2D biggestContour;
     private Point pointerHistoryPoint;
     private Point cog;
+    private ArrayList<Point> handHull;
     private int palmSize;
 
     HandDetector(DisplayEngine de, HandGestureGraphicRenderer gr, Mat initialImageMat) {
@@ -46,6 +49,7 @@ public class HandDetector {
 
         graphicRenderer.startGraphicRendererThread();
         cog = new Point();
+
     }
 
     public Point getHandPoint(Mat image, BufferedImage screenImage) {
@@ -78,7 +82,9 @@ public class HandDetector {
             if (transformedBiggestContour != null) {
                 transformedBiggestContour.removeAll(removeBoarderPoints((ArrayList<Point>) transformedBiggestContour.clone()));
 //                ArrayList<Point> transformedHandPoints = displayEngine.removeBoarderPoints(new ArrayList<>(transformedBiggestContour));
-                graphicRenderer.drawShape(transformedBiggestContour, cog, palmSize, Color.PINK, 640, 240 + 50, 4);
+                graphicRenderer.drawShape(transformedBiggestContour, handHull, cog, palmSize, Color.PINK, 640, 240 + 50, 4);
+//                graphicRenderer.drawShape(handHull, cog, palmSize, Color.PINK, 640, 240 + 50, 4);
+
                 pointer = smoothenPoint(computeHandInfo(transformedBiggestContour));
 //                graphicRenderer.drawPointsOnScreen(transformedHandPoints);
 //                if (pointer != null) {
@@ -104,6 +110,8 @@ public class HandDetector {
     private ArrayList<Point> getBiggestContour(ArrayList<MatOfPoint> contours) {
         ArrayList<Point> biggestPoints = null;
         SimplePolygon2D biggestPolygon = null;
+        MatOfInt hull = new MatOfInt();
+        MatOfPoint biggestMatOfPoint = null;
         for (MatOfPoint points : contours) {
             ArrayList<Point> pointsArrayList = displayEngine.transformAndRemovePoints(new ArrayList<>(points.toList()));
             if (pointsArrayList.size() < 3) {
@@ -119,8 +127,33 @@ public class HandDetector {
             SimplePolygon2D polygon = new SimplePolygon2D(point2DList);
             if (biggestPolygon == null || Math.abs(biggestPolygon.area()) < Math.abs(polygon.area())) {
                 biggestPolygon = polygon;
+                biggestMatOfPoint = points;
                 biggestPoints = new ArrayList<>(matOfPoint2f.toList());
+
             }
+        }
+
+        Imgproc.convexHull(biggestMatOfPoint, hull);
+
+        if (hull.toArray().length > 0) {
+//            System.out.println("@@@@@@@@@@@@ " + hull.toArray().length);
+            handHull = new ArrayList<>();
+            for (int i : hull.toArray()) {
+                System.out.print("    " + i);
+                // handHull.add(biggestPoints.get(i));
+            }
+            handHull = new ArrayList<>();
+            for (int i = 0; i < hull.size().height; i++) {
+                int index = (int) hull.get(i, 0)[0];
+//                double[] point = new double[]{
+//                    biggestMatOfPoint.get(index, 0)[0], biggestMatOfPoint.get(index, 0)[1]
+//                };
+                //System.out.print("   " + biggestMatOfPoint.get(index, 0)[0] + "," + biggestMatOfPoint.get(index, 0)[1]);
+                handHull.add(new Point(new double[]{
+                            biggestMatOfPoint.get(index, 0)[0], biggestMatOfPoint.get(index, 0)[1]
+                        }));
+            }
+            handHull = displayEngine.transformAndRemovePoints(handHull);
         }
         this.biggestContour = biggestPolygon;
         return biggestPoints;
