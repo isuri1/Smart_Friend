@@ -29,4 +29,6 @@ public final class Consts {
     public static final String ENTER_ICON = IMAGE_SOURCE_DIRECTORY + "enter_icon.png";
     
     public static boolean saveImage = false;
+    
+    public static boolean GRAPHICAL_DEBUG = true;
 }

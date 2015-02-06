@@ -59,7 +59,7 @@ public class tester {
     DisplayEngine displayEngine;
     private Point cog;
     private int contourAxisAngle;
-    private ArrayList<Point> handHull;
+    private ArrayList<Point> handConvexHull;
     private int palmSize;
     private ArrayList<Point> fingerTips;
     private ArrayList<FingerName> namedFingers;
@@ -106,7 +106,7 @@ public class tester {
 
             //CODE FOR FINGER IDENTIFICATION
             ArrayList<MatOfPoint> contours = new ArrayList<>();
-            handHull = new ArrayList<>();
+            handConvexHull = new ArrayList<>();
             fingerTips = new ArrayList<>();
             cog = new Point();
             namedFingers = new ArrayList<FingerName>();
@@ -115,13 +115,12 @@ public class tester {
 
             MatOfPoint transformedBiggestContour = getBiggestContourMatOfPoint(contours);
 
-            //MatOfPoint handConvexHull = getConvexHull(transformedBiggestContour);
-            computeHandInfo2(convertToMat(drawShapeToImage(convertToArrayList(transformedBiggestContour), new Dimension(1280, 1024))));
+            computeHandInfo(convertToMat(drawShapeToImage(convertToArrayList(transformedBiggestContour), new Dimension(1280, 1024))));
 
             findFingerTips(transformedBiggestContour);
             nameFingers(cog, contourAxisAngle, fingerTips);
 
-            drawShape(convertToArrayList(transformedBiggestContour), handHull, cog, 1, Color.PINK, 960, 40, 4);
+            drawShape(convertToArrayList(transformedBiggestContour), handConvexHull, cog, 1, Color.PINK, 960, 40, 4);
 
 
 
@@ -340,7 +339,7 @@ public class tester {
         return 0;
     }  // end of calculateTilt()
 
-    private void computeHandInfo2(Mat img) {
+    private void computeHandInfo(Mat img) {
         Mat newMat = new Mat();
         Imgproc.cvtColor(img, newMat, Imgproc.COLOR_BGR2GRAY);
         Moments m = Imgproc.moments(newMat);
@@ -365,34 +364,6 @@ public class tester {
 //        contourAxisAngle = 180 - contourAxisAngle;
 //        /* this makes the angle relative to a positive y-axis that
 //         runs up the screen */
-    }
-
-    private Point computeHandInfo(ArrayList<Point> points) {
-        if (points.size() > 2) {
-            ArrayList<Point2D> point2DList;
-            SimplePolygon2D polygon;
-            Point2D centorid, distantPoint = new Point2D();
-            double distance = 0;
-
-            point2DList = new ArrayList<>(points.size());
-            for (Point pt : points) {
-                point2DList.add(new Point2D(pt.x, pt.y));
-            }
-            polygon = new SimplePolygon2D(point2DList);
-            centorid = polygon.centroid();
-            cog.x = centorid.getX();
-            cog.y = centorid.getY();
-            for (Point2D pt : point2DList) {
-                double dist = centorid.distance(pt);
-                if (distance < dist) {
-                    distance = dist;
-                    distantPoint = pt;
-                }
-            }
-            return new Point(distantPoint.x(), distantPoint.y());
-        } else {
-            return new Point(0, 0);
-        }
     }
 
     public static void main(String[] args) {
@@ -430,7 +401,7 @@ public class tester {
 
         Imgproc.convexHull(biggestContour, hull);
         Imgproc.convexityDefects(biggestContour, hull, convexityDefects);
-        extractContourInfo(biggestContour, hull, handHull);
+        extractContourInfo(biggestContour, hull, handConvexHull);
 
         int convexityDefectsSize = convexityDefects.height();
         Point[] startPoints = new Point[convexityDefectsSize];
@@ -479,7 +450,7 @@ public class tester {
             // this point probably is a finger tip, so add to list
             fingerTips.add(tipPts[i]);
         }
-    } 
+    }
 
     private int angleBetween(Point tip, Point next, Point prev) // calulate the angle between the tip and its neigbouring folds (in integer degrees)
     {
