@@ -1,5 +1,6 @@
 package smartfriend.applications.scheduler.controller;
 
+import eu.schudt.javafx.controls.calendar.DatePicker;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,8 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.ZoneId;
+//import java.time.LocalDate;
+//import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -26,7 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
+//import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Toggle;
@@ -93,30 +94,30 @@ public class MainController implements Initializable {
             }
         });
 
-        hourSLider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Slider Value Changed (newValue: " + newValue.intValue() + ")");
-            hours = newValue.intValue();
-        });
+//        hourSLider.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            System.out.println("Slider Value Changed (newValue: " + newValue.intValue() + ")");
+//            hours = newValue.intValue();
+//        });
+//
+//        minuteSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            System.out.println("Slider Value Changed (newValue: " + newValue.intValue() + ")");
+//            minuts = newValue.intValue();
+//        });
+//
+//        repeatSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            System.out.println("Slider Value Changed (newValue: " + newValue.intValue() + ")");
+//            repeat = newValue.intValue();
+//        });
 
-        minuteSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Slider Value Changed (newValue: " + newValue.intValue() + ")");
-            minuts = newValue.intValue();
-        });
-
-        repeatSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Slider Value Changed (newValue: " + newValue.intValue() + ")");
-            repeat = newValue.intValue();
-        });
-
-        datePicker.setOnAction(new EventHandler() {
-            public void handle(Event t) {
-                LocalDate date1 = datePicker.getValue();
-                System.err.println("Selected date: " + date1);
-
-                date = Date.from(date1.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                System.out.println("***" + date);
-            }
-        });
+//        datePicker.setOnAction(new EventHandler() {
+//            public void handle(Event t) {
+//                LocalDate date1 = datePicker.getValue();
+//                System.err.println("Selected date: " + date1);
+//
+//                date = Date.from(date1.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//                System.out.println("***" + date);
+//            }
+//        });
 
         ToggleGroup am_pm_group = new ToggleGroup();
         am.setToggleGroup(am_pm_group);

@@ -44,8 +44,8 @@ public class RecordingController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         line_No = 0;
-        int l = getLineNumber() + 1;
-        TaskRecorder recorder = new TaskRecorder(l);
+        final int l = getLineNumber() + 1;
+        final TaskRecorder recorder = new TaskRecorder(l);
 
         startRecordingButton.setOnAction(new EventHandler<ActionEvent>() {
 

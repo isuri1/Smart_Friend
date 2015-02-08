@@ -49,7 +49,7 @@ public class UserDetailsGUI {
 
     public static void main(String[] args) {
 
-        UserDetailsGUI ud = new UserDetailsGUI();
+        final UserDetailsGUI ud = new UserDetailsGUI();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

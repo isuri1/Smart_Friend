@@ -64,9 +64,9 @@ public class UserController implements Initializable {
             }
         });
 
-        nameField.textProperty().addListener((observable, oldValue, newValue) -> {
-            userName = newValue;
-        });
+//        nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            userName = newValue;
+//        });
 
         emailField.setOnMousePressed(new EventHandler() {
             @Override
@@ -79,10 +79,10 @@ public class UserController implements Initializable {
             }
         });
 
-        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
-
-            emailAddress = newValue;
-        });
+//        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+//
+//            emailAddress = newValue;
+//        });
 
         SaveDetailsButton.setOnAction(new EventHandler<ActionEvent>() {
 

@@ -50,7 +50,7 @@ public class SchedulerGUI {
     }
 
     public static void main(String[] args) {
-        SchedulerGUI st = new SchedulerGUI();
+        final SchedulerGUI st = new SchedulerGUI();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
