@@ -10,7 +10,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.awt.image.ImageProducer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,7 +58,6 @@ public class HandDetector {
     private ArrayList<Point> handConvexHull;
     private ArrayList<Point> fingerTips;
     private ArrayList<FingerName> namedFingers;
-    private Point curserPoint; //point of the index finger
 
     HandDetector(DisplayEngine de, HandGestureGraphicRenderer gr, Mat initialImageMat) {
         displayEngine = de;
@@ -67,7 +65,9 @@ public class HandDetector {
         graphicRenderer.wipeScreen();
         this.initialImage = initialImageMat;
 
-        graphicRenderer.drawImageOnInfoPanel(initialImage, 960, 0 + 50, 2);
+        if (Consts.GRAPHICAL_DEBUG) {
+            graphicRenderer.drawImageOnInfoPanel(initialImage, 320, 0, 2);
+        }
 
         graphicRenderer.startGraphicRendererThread();
         cog = new Point();
@@ -94,7 +94,7 @@ public class HandDetector {
         //resize image to speedup
         Core.absdiff(image, initialImage, image);
         if (Consts.GRAPHICAL_DEBUG) {
-            graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 240 + 50, 2);
+            graphicRenderer.drawImageOnInfoPanel(screenImage, 0, 240, 2);
         }
         //graphicRenderer.drawImageOnInfoPanel(screenImage, 960, 0, 2);
         if (Consts.saveImage) {
@@ -103,13 +103,13 @@ public class HandDetector {
         }
         Core.absdiff(image, graphicRenderer.convertToMat(screenImage), image);
         if (Consts.GRAPHICAL_DEBUG) {
-            graphicRenderer.drawImageOnInfoPanel(image, 960, 480 + 50, 2);
+            graphicRenderer.drawImageOnInfoPanel(image, 640, 0, 2);
         }
 
         Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
         Imgproc.threshold(image, image, IMG_THRESHOLD_VAL, 255, Imgproc.THRESH_BINARY);
         if (Consts.GRAPHICAL_DEBUG) {
-            graphicRenderer.drawImageOnInfoPanel(image, 640, 0 + 50, 2);
+            graphicRenderer.drawImageOnInfoPanel(image, 960, 0 , 2);
         }
 
         Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -126,18 +126,7 @@ public class HandDetector {
                 if (Consts.GRAPHICAL_DEBUG & handConvexHull != null) {
                     graphicRenderer.drawHandInfo(convertToArrayList(transformedBiggestContour), handConvexHull, cog, palmSize, fingerTips, namedFingers, 640, 240 + 50, 4);
                 }
-
-
-
-
-//                transformedBiggestContour.removeAll(removeBoarderPoints((ArrayList<Point>) transformedBiggestContour.clone()));
-//                graphicRenderer.drawShape(transformedBiggestContour, handHull, cog, palmSize, Color.PINK, 640, 240 + 50, 4);
-//
-//                pointer = smoothenPoint(computeHandInfo(transformedBiggestContour));
-//                graphicRenderer.drawPointsOnScreen(transformedHandPoints);
-//                if (pointer != null) {
-//                    graphicRenderer.drawPointerOnScreen(pointer);
-//                }
+                System.out.println("@@@@ Angle : " + contourAxisAngle);
             }
         }
         return pointer;

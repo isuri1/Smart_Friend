@@ -37,6 +37,8 @@ import smartfriend.util.general.Consts;
  */
 public class HandGestureGraphicRenderer implements Runnable {
 
+    private static int X_OFFSET = 10;
+    private static int Y_OFFSET = 30;
     private JFrame infoPanel;
     private Graphics2D infoPanelGraphics2D;
     private HandGestureDisplayPanel screenPanel;
@@ -120,34 +122,20 @@ public class HandGestureGraphicRenderer implements Runnable {
         }
     }
 
-//    public void drawCircleOnScreen(Point point) {
-//        if (point != null) {
-//            screenPanel.getGraphics().setColor(Color.RED);
-//            screenPanel.getGraphics().drawOval((int) point.x - 150, (int) point.y - 150, 300, 300);
-//        }
-//    }
-    public void drawPointsOnInfoPanel(Mat image, List<Point> points, Color color, int downScale) {
-        infoPanelGraphics2D.drawImage(getImage(image), 0, 0, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
+    public void drawPointsOnInfoPanel(Mat image, List<Point> points, Color color, int x, int y, int downScale) {
+        infoPanelGraphics2D.drawImage(getImage(image), x + X_OFFSET, y + Y_OFFSET, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
         for (Point pt : points) {
             infoPanelGraphics2D.setColor(color);
-            infoPanelGraphics2D.fillOval((int) pt.x / downScale - 5, (int) pt.y / downScale - 5, 10, 10);
+            infoPanelGraphics2D.fillOval(x + X_OFFSET + (int) pt.x / downScale - 5, y + Y_OFFSET + (int) pt.y / downScale - 5, 10, 10);
         }
     }
 
-    public void drawImageOnInfoPanel(Mat image, int downScale) {
-        infoPanelGraphics2D.drawImage(getImage(image), 0, 0, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
-    }
-
     public void drawImageOnInfoPanel(Mat image, int x, int y, int downScale) {
-        infoPanelGraphics2D.drawImage(getImage(image), x, y, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
+        drawImageOnInfoPanel(getImage(image), x, y, downScale);
     }
 
     public void drawImageOnInfoPanel(BufferedImage image, int x, int y, int downScale) {
-        infoPanelGraphics2D.drawImage(image, x, y, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
-    }
-
-    public void drawImageOnInfoPanel(BufferedImage image, int downScale) {
-        infoPanelGraphics2D.drawImage(image, 0, 0, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
+        infoPanelGraphics2D.drawImage(image, x + X_OFFSET, y + Y_OFFSET, Consts.CAMERA_WIDTH / downScale, Consts.CAMERA_HEIGHT / downScale, null);
     }
 
     public void drawPoint(Point pt, Color color) {
@@ -199,7 +187,7 @@ public class HandGestureGraphicRenderer implements Runnable {
      *
      * @param points List of points of the hand contour
      * @param convexHull Convex hull of the hand contour
-     * @param cog Center of gravity 
+     * @param cog Center of gravity
      * @param ditostance Size of the palm
      * @param fingerTips Finger tips points list
      * @param namedFingers Corresponding names of the finger tips
@@ -252,7 +240,6 @@ public class HandGestureGraphicRenderer implements Runnable {
                     infoPanelGraphics2D.setPaint(Color.RED);   // unnamed finger tip is red
                     infoPanelGraphics2D.drawOval(x + (int) pt.x / downScale - 8, y + (int) pt.y / downScale - 8, 16, 16);
                     infoPanelGraphics2D.drawString("" + i, x + (int) pt.x / downScale, y + (int) pt.y / downScale - 10);   // label it with a digit
-                    System.out.println("@@@@ " + namedFingers.get(i));
                 } else {   // draw yellow line to the named finger tip from COG
                     infoPanelGraphics2D.setPaint(Color.YELLOW);
                     infoPanelGraphics2D.drawLine(x + (int) cog.x / downScale, y + (int) cog.y / downScale, x + (int) pt.x / downScale, y + (int) pt.y / downScale);
@@ -260,7 +247,6 @@ public class HandGestureGraphicRenderer implements Runnable {
                     infoPanelGraphics2D.setPaint(Color.GREEN);   // named finger tip is green
                     infoPanelGraphics2D.drawOval(x + (int) pt.x / downScale - 8, y + (int) pt.y / downScale - 8, 16, 16);
                     infoPanelGraphics2D.drawString(namedFingers.get(i).toString().toLowerCase(), x + (int) pt.x / downScale, y + (int) pt.y / downScale - 10);
-
 //                    System.out.println("@@@@ " + namedFingers.get(i));
                 }
             }

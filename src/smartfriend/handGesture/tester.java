@@ -218,7 +218,7 @@ public class tester {
 
             for (Point pt : points) {
                 infoPanelGraphics2D.setColor(Color.CYAN);
-                infoPanelGraphics2D.fillOval(x + (int) pt.x / downScale - 5, y + (int) pt.y / downScale - 5, 10, 10);
+                infoPanelGraphics2D.fillOval(x + (int) pt.x / downScale - 2, y + (int) pt.y / downScale - 2, 4, 10);
             }
             for (Point pt : convexHull) {
                 infoPanelGraphics2D.setColor(Color.black);

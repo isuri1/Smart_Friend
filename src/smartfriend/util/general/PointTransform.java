@@ -55,14 +55,13 @@ public class PointTransform {
     }
 
     public MatOfPoint transfromAndRemovePoints(MatOfPoint points) {
-        MatOfPoint transfromedPoints = new MatOfPoint();
         ArrayList<Point> transformedPointsArrayList = new ArrayList<>();
         for (int i = 0; i < points.size().height; i++) {
             Point pt = new Point(points.get(i, 0)[0], points.get(i, 0)[1]);
             pt = transfromPoint(pt);
-//            if (pt.x  < 0 | pt.x > Consts.SCREEN_WIDHT | pt.y < 0 | pt.y > Consts.SCREEN_HEIGHT) {
-//                continue;
-//            }
+            if (pt.x  < 0 | pt.x > Consts.SCREEN_WIDHT | pt.y < 0 | pt.y > Consts.SCREEN_HEIGHT) {
+                continue;
+            }
             transformedPointsArrayList.add(pt);
         }
         return new MatOfPoint(transformedPointsArrayList.toArray(new Point[0]));

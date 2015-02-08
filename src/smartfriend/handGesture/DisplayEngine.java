@@ -42,11 +42,13 @@ public class DisplayEngine {
                 for (Point pt : boundryPoints) {
                     System.out.println(" x : " + pt.x + "   " + pt.y);
                 }
-                graphicRenderer.drawPointsOnInfoPanel(camera.capturePhoto(), boundryPoints, Color.GREEN, 1);
+                if (Consts.GRAPHICAL_DEBUG) {
+                    graphicRenderer.drawPointsOnInfoPanel(camera.capturePhoto(), boundryPoints, Color.GREEN, 0, 0, 2);
+                }
                 PointTransform.initialize(boundryPoints, displaySize);
                 break;
             }
-            System.out.println("unsucessfull" + boundryPoints.size());
+//            System.out.println("unsucessfull" + boundryPoints.size());
         }
     }
 
